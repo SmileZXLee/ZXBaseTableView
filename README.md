@@ -1,6 +1,7 @@
 # ZXBaseTableView
 基于tableview的轻度封装，不会影响习惯的处理模式，使用block方式进行操作，简易的代码风格，自动赋值，自动处理xib和非xib情况，自动设置高度，大量减少冗余代码。
-//初始化数据
+    
+    //初始化数据
     [self setData];
     //初始化tableView
     ZXBaseTableView *tableView = [self creatTableView];
