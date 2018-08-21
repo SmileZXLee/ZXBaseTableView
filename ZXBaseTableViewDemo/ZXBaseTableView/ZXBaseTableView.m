@@ -67,7 +67,13 @@
         if(cellH && ![[model safeValueForKey:CELLH] floatValue]){
             [model safeSetValue:[NSNumber numberWithFloat:cellH] forKey:CELLH];
         }
-        [cell safeSetValue:model forKey:DATAMODEL];
+        NSArray *proNames = [cell getAllPropertyNames];
+        for (NSString *proStr in proNames) {
+            if([proStr.uppercaseString containsString:DATAMODEL.uppercaseString]){
+                [cell safeSetValue:model forKey:proStr];
+                break;
+            }
+        }
         !self.cellAtIndexPath ? : self.cellAtIndexPath(indexPath,cell,model);
         return cell;
     }
