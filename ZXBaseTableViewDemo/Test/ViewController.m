@@ -43,7 +43,7 @@
         }
     };
     
-    //获取对应indexPath的cell 可以在这里对cell赋值或者修改cell的一些属性或者绑定cell中button的点击事件 注意：若您的自定义cell中.h文件中model属性名称叫作“model”，则无需手动给cell赋值，ZXBaseTableView会自动查找cell中的model字段并且赋值，您直接在setModel中进行cell的赋值即可。您可以在ZXBaseTableViewConfig.h中更改model的匹配属性名
+    //获取对应indexPath的cell 可以在这里对cell赋值或者修改cell的一些属性或者绑定cell中button的点击事件 注意：若您的自定义cell中.h文件中model属性名称叫作“model”（或包含model，大小写不影响），则无需手动给cell赋值，ZXBaseTableView会自动查找cell中的model（或包含model，大小写不影响）字段并且赋值，您直接在setModel中进行cell的赋值即可。您可以在ZXBaseTableViewConfig.h中更改model的匹配属性名
     /*
     tableView.cellAtIndexPath = ^(NSIndexPath *indexPath, UITableViewCell *cell, id model) {
         if([cell isKindOfClass:[CustomTestCell class]]){
