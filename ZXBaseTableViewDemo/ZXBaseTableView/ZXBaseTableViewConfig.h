@@ -4,7 +4,7 @@
 //
 //  Created by 李兆祥 on 2018/8/21.
 //  Copyright © 2018年 李兆祥. All rights reserved.
-//
+//  Github地址：https://github.com/SmileZXLee/ZXBaseTableView
 
 #ifndef ZXBaseTableViewConfig_h
 #define ZXBaseTableViewConfig_h

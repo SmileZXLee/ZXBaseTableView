@@ -4,12 +4,11 @@
 //
 //  Created by 李兆祥 on 2018/8/20.
 //  Copyright © 2018年 李兆祥. All rights reserved.
-//
+//  Github地址：https://github.com/SmileZXLee/ZXBaseTableView
 
 #import "ZXBaseTableView.h"
 #import "NSObject+SafeSetValue.h"
 @interface ZXBaseTableView()<UITableViewDelegate,UITableViewDataSource>
-
 
 @end
 @implementation ZXBaseTableView
