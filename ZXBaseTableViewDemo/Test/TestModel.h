@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-@interface TestModel : NSObject
+@interface TestModel : ZXBaseModel
 @property(nonatomic, copy)NSString *title;
 @property(nonatomic, copy)NSString *msg;
-@property(nonatomic, assign)CGFloat cellH;
+//继承了ZXBaseModel 此行可不写
+//@property(nonatomic, assign)CGFloat cellH;
 @end

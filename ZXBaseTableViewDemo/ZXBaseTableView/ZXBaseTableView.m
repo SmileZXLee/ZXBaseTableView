@@ -53,7 +53,7 @@
         if(!cell){
             if(isExist){
                 cell = [[[NSBundle mainBundle]loadNibNamed:className owner:nil options:nil]lastObject];
-                [cell safeSetValue:className forKey:@"reuseIdentifier"];
+                [cell safeSetValue:className forKeyPath:@"reuseIdentifier"];
             }else{
                 if(cellClass){
                     cell = [[cellClass alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:className];
@@ -64,17 +64,19 @@
             }
         }
         CGFloat cellH = ((UITableViewCell *)cell).frame.size.height;
-        if(cellH && ![[model safeValueForKey:CELLH] floatValue]){
-            [model safeSetValue:[NSNumber numberWithFloat:cellH] forKey:CELLH];
+        if(cellH && ![[model safeValueForKeyPath:CELLH] floatValue]){
+            [model safeSetValue:[NSNumber numberWithFloat:cellH] forKeyPath:CELLH];
         }
         NSArray *proNames = [cell getAllPropertyNames];
         for (NSString *proStr in proNames) {
             if([proStr.uppercaseString containsString:DATAMODEL.uppercaseString]){
-                [cell safeSetValue:model forKey:proStr];
+                [cell safeSetValue:model forKeyPath:proStr];
                 break;
             }
         }
         !self.cellAtIndexPath ? : self.cellAtIndexPath(indexPath,cell,model);
+        //可以在这里设置整个项目cell的属性，也可以在cellAtIndexPath的block中设置当前控制器tableview的cell属性
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
 }
@@ -83,11 +85,15 @@
     if([self.zxDataSource respondsToSelector:@selector(numberOfRowsInSection:)]){
         return [self.zxDataSource tableView:tableView numberOfRowsInSection:section];
     }else{
-        if([self isMultiDatas]){
-            NSArray *sectionArr = [self.zxDatas objectAtIndex:section];
-            return sectionArr.count;
+        if(self.numberOfRowsInSection){
+            return self.numberOfRowsInSection(section);
         }else{
-            return self.zxDatas.count;
+            if([self isMultiDatas]){
+                NSArray *sectionArr = [self.zxDatas objectAtIndex:section];
+                return sectionArr.count;
+            }else{
+                return self.zxDatas.count;
+            }
         }
     }
 }
@@ -96,7 +102,11 @@
     if([self.zxDataSource respondsToSelector:@selector(numberOfSectionsInTableView:)]){
         return [self.zxDataSource numberOfSectionsInTableView:tableView];
     }else{
-        return [self isMultiDatas] ? self.zxDatas.count : 1;
+        if(self.numberOfSectionsInTableView){
+            return self.numberOfSectionsInTableView(tableView);
+        }else{
+            return [self isMultiDatas] ? self.zxDatas.count : 1;
+        }
     }
 }
 
@@ -131,7 +141,7 @@
             return self.cellHAtIndexPath(indexPath);
         }else{
             id model = [self getModelAtIndexPath:indexPath];
-            CGFloat cellH = [[model safeValueForKey:CELLH] floatValue];
+            CGFloat cellH = [[model safeValueForKeyPath:CELLH] floatValue];
             if(cellH){
                return cellH;
             }else{

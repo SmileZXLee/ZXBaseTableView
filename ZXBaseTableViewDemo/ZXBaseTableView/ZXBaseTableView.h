@@ -14,15 +14,19 @@
 @property(nonatomic, strong)NSMutableArray *zxDatas;
 ///设置对应cell的类
 @property (nonatomic, copy) Class (^cellClassAtIndexPath)(NSIndexPath *indexPath);
-///设置对应cell的高度
+///设置对应cell的高度(非必须，若设置了，则内部的自动计算高度无效)
 @property (nonatomic, copy) CGFloat (^cellHAtIndexPath)(NSIndexPath *indexPath);
-///设置HeaderView
+///设置section数量(非必须，若设置了，则内部自动设置section个数无效)
+@property (nonatomic, copy) CGFloat (^numberOfSectionsInTableView)(UITableView *tableView);
+///设置对应section中row的数量(非必须，若设置了，则内部自动设置对应section中row的数量无效)
+@property (nonatomic, copy) CGFloat (^numberOfRowsInSection)(NSUInteger section);
+///设置HeaderView(非必须)
 @property (nonatomic, copy) UIView *(^viewForHeaderInSection)(NSInteger section);
-///设置FooterView
+///设置FooterView(非必须)
 @property (nonatomic, copy) UIView *(^viewForFooterInSection)(NSInteger section);
-///设置HeaderView高度
+///设置HeaderView高度(非必须)
 @property (nonatomic, copy) CGFloat (^heightForHeaderInSection)(NSInteger section);
-///设置FooterView高度
+///设置FooterView高度(非必须)
 @property (nonatomic, copy) CGFloat (^heightForFooterInSection)(NSInteger section);
 
 

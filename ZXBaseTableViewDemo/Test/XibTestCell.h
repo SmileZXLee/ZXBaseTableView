@@ -7,6 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-@interface XibTestCell : UITableViewCell
-
+@interface XibTestCell : ZXBaseCell
+//继承了ZXBaseCell 可不定义model属性
 @end

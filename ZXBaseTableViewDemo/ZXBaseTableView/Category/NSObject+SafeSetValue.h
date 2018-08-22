@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface NSObject (SafeSetValue)
+-(NSMutableArray *)getPropertyNames;
 -(NSMutableArray *)getAllPropertyNames;
 -(void)safeSetValue:(id)value forKey:(NSString *)key;
 -(void)safeSetValue:(id)value forKeyPath:(NSString *)key;

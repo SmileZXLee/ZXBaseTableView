@@ -9,7 +9,7 @@
 #import "UIViewController+TableView.h"
 @implementation UIViewController (TableView)
 -(ZXBaseTableView *)creatTableViewWithStyle:(UITableViewStyle)style{
-    CGFloat tabViewH = IS_IPHONE_X ? kSCREENHEIGHT - kNavi_Height + 44 : kSCREENHEIGHT - kNavi_Height;
+    CGFloat tabViewH = IS_IPHONE_X ? kSCREENHEIGHT - kNavi_Height + 34 : kSCREENHEIGHT - kNavi_Height;
     CGRect frame = CGRectMake(0, 0, KSCREENWIDTH, tabViewH);
     ZXBaseTableView *tableView = [[ZXBaseTableView alloc]initWithFrame:frame style:style];
     tableView.frame = self.view.frame;

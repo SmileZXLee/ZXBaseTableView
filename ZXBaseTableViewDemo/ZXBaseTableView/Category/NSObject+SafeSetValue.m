@@ -9,7 +9,7 @@
 #import "NSObject+SafeSetValue.h"
 #import <objc/runtime.h>
 @implementation NSObject (SafeSetValue)
--(NSMutableArray *)getAllPropertyNames{
+-(NSMutableArray *)getPropertyNames{
     NSMutableArray *propertyNamesArr = [NSMutableArray array];
     u_int count;
     objc_property_t *properties  = class_copyPropertyList([self class],&count);
@@ -18,6 +18,19 @@
         NSString *propertyNameStr = [NSString stringWithUTF8String: propertyNameChar];
         [propertyNamesArr addObject:propertyNameStr];
         
+    }
+    return propertyNamesArr;
+}
+-(NSMutableArray *)getAllPropertyNames{
+    NSMutableArray *propertyNamesArr = [NSMutableArray array];
+    propertyNamesArr = [self getPropertyNames];
+    //这边只去获取上一级父类
+    if(![self superclassIsSysClass]){
+        NSMutableArray *superclassproArr = [self.superclass getPropertyNames];
+        for (NSString *superclassproStr in superclassproArr) {
+            [propertyNamesArr addObject:superclassproStr];
+        }
+
     }
     return propertyNamesArr;
 }
@@ -39,7 +52,7 @@
     return valuesArr;
 }
 -(void)safeSetValue:(id)value forKey:(NSString *)key{
-    if([[self getAllPropertyNames] containsObject:key]){
+    if([[self getPropertyNames] containsObject:key]){
         [self setValue:value forKey:key];
     }
 }
@@ -49,7 +62,7 @@
     }
 }
 -(instancetype)safeValueForKey:(NSString *)key{
-    if([[self getAllPropertyNames] containsObject:key]){
+    if([[self getPropertyNames] containsObject:key]){
         return [self valueForKey:key];
     }else{
         return nil;
@@ -61,5 +74,8 @@
     }else{
         return nil;
     }
+}
+-(BOOL)superclassIsSysClass{
+    return !([NSBundle bundleForClass:self.superclass] == [NSBundle mainBundle]);
 }
 @end

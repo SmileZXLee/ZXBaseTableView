@@ -7,8 +7,6 @@
 //
 
 #import "ViewController.h"
-//导入这个头文件即可使用
-#import "UIViewController+TableView.h"
 
 #import "XibTestCell.h"
 #import "CustomTestCell.h"

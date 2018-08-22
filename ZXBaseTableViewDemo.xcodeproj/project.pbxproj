@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74EFD227212D394B00D689B2 /* ZXBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EFD222212D394B00D689B2 /* ZXBaseModel.m */; };
+		74EFD228212D394B00D689B2 /* ZXBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EFD223212D394B00D689B2 /* ZXBaseCell.m */; };
 		74F9B637212A77B5007D3BBA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F9B636212A77B5007D3BBA /* AppDelegate.m */; };
 		74F9B63A212A77B5007D3BBA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F9B639212A77B5007D3BBA /* ViewController.m */; };
 		74F9B63D212A77B5007D3BBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 74F9B63B212A77B5007D3BBA /* Main.storyboard */; };
@@ -42,6 +44,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		74EFD222212D394B00D689B2 /* ZXBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXBaseModel.m; sourceTree = "<group>"; };
+		74EFD223212D394B00D689B2 /* ZXBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXBaseCell.m; sourceTree = "<group>"; };
+		74EFD224212D394B00D689B2 /* ZXBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXBaseModel.h; sourceTree = "<group>"; };
+		74EFD225212D394B00D689B2 /* ZXBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXBaseCell.h; sourceTree = "<group>"; };
+		74EFD226212D394B00D689B2 /* ZXBaseTableViewPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXBaseTableViewPrefixHeader.pch; sourceTree = "<group>"; };
+		74EFD229212D396E00D689B2 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrefixHeader.pch; path = ZXBaseTableViewDemo/PrefixHeader.pch; sourceTree = SOURCE_ROOT; };
 		74F9B632212A77B5007D3BBA /* ZXBaseTableViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZXBaseTableViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74F9B635212A77B5007D3BBA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		74F9B636212A77B5007D3BBA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -127,6 +135,7 @@
 				74F9B635212A77B5007D3BBA /* AppDelegate.h */,
 				74F9B636212A77B5007D3BBA /* AppDelegate.m */,
 				74F9B63B212A77B5007D3BBA /* Main.storyboard */,
+				74EFD229212D396E00D689B2 /* PrefixHeader.pch */,
 				74F9B63E212A77B5007D3BBA /* Assets.xcassets */,
 				74F9B640212A77B5007D3BBA /* LaunchScreen.storyboard */,
 				74F9B643212A77B5007D3BBA /* Info.plist */,
@@ -159,6 +168,11 @@
 				74F9B668212A7A13007D3BBA /* Category */,
 				74F9B669212A8167007D3BBA /* ZXBaseTableView.h */,
 				74F9B66A212A8167007D3BBA /* ZXBaseTableView.m */,
+				74EFD225212D394B00D689B2 /* ZXBaseCell.h */,
+				74EFD223212D394B00D689B2 /* ZXBaseCell.m */,
+				74EFD224212D394B00D689B2 /* ZXBaseModel.h */,
+				74EFD222212D394B00D689B2 /* ZXBaseModel.m */,
+				74EFD226212D394B00D689B2 /* ZXBaseTableViewPrefixHeader.pch */,
 				74F9B686212B27B5007D3BBA /* ZXBaseTableViewConfig.h */,
 			);
 			path = ZXBaseTableView;
@@ -329,9 +343,11 @@
 				74F9B66B212A8167007D3BBA /* ZXBaseTableView.m in Sources */,
 				74F9B67C212AF64C007D3BBA /* CustomTestCell.m in Sources */,
 				74F9B63A212A77B5007D3BBA /* ViewController.m in Sources */,
+				74EFD227212D394B00D689B2 /* ZXBaseModel.m in Sources */,
 				74F9B678212AF4DE007D3BBA /* XibTestCell.m in Sources */,
 				74F9B645212A77B5007D3BBA /* main.m in Sources */,
 				74F9B685212B1978007D3BBA /* NSObject+SafeSetValue.m in Sources */,
+				74EFD228212D394B00D689B2 /* ZXBaseCell.m in Sources */,
 				74F9B671212A8FBF007D3BBA /* UIViewController+TableView.m in Sources */,
 				74F9B637212A77B5007D3BBA /* AppDelegate.m in Sources */,
 			);
@@ -498,6 +514,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4Y2YPWFYNQ;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)//ZXBaseTableViewDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = ZXBaseTableViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = zxlee.cn.ZXBaseTableViewDemo;
@@ -512,6 +530,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4Y2YPWFYNQ;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)//ZXBaseTableViewDemo/PrefixHeader.pch";
 				INFOPLIST_FILE = ZXBaseTableViewDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = zxlee.cn.ZXBaseTableViewDemo;
