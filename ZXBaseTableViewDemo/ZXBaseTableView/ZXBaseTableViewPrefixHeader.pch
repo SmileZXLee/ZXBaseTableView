@@ -8,8 +8,11 @@
 
 #ifndef ZXBaseTableViewPrefixHeader_pch
 #define ZXBaseTableViewPrefixHeader_pch
+#define ZXWeakSelf(obj) autoreleasepool{} __weak typeof(obj) o##Weak = obj;
+#define ZXStrongSelf(obj) autoreleasepool{} __strong typeof(obj) obj = o##Weak;
 #ifdef __OBJC__
 #import "UIViewController+TableView.h"
+#import "NSObject+ZXKVO.h"
 #import "ZXBaseCell.h"
 #import "ZXBaseModel.h"
 #endif

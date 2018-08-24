@@ -5,32 +5,54 @@
 //  Created by 李兆祥 on 2018/8/20.
 //  Copyright © 2018年 李兆祥. All rights reserved.
 //
-
+typedef void(^reqSuccessBlock) (BOOL result,id backData);
 #import "ViewController.h"
 
 #import "XibTestCell.h"
 #import "CustomTestCell.h"
 #import "TestModel.h"
+
+#import "MJRefresh.h"
 @interface ViewController ()
-@property(nonatomic, weak)UITableView *tableView;
+@property(nonatomic, weak)ZXBaseTableView *tableView;
 @property(nonatomic, strong)NSMutableArray *dataSource;
 @end
 
 @implementation ViewController
+#pragma mark 设置数据来源
+-(void)segControlChange:(UISegmentedControl *)seg{
+    if(seg.selectedSegmentIndex == 0){
+        //普通模式
+        //设置tableView数据 此set方法会刷新tableView
+        self.tableView.mj_header = nil;
+        self.tableView.mj_footer = nil;
+        self.tableView.zxDatas = [self.dataSource mutableCopy];
+    }else{
+        //分页模式
+        //MJRefresh相关封装
+        /*
+         [tableView addMJHeader:^{
+         [self reqDataList];
+         }];
+         [tableView addMJFooter:^{
+         [self reqDataList];
+         }];
+         */
+        //设置MJFooterStyle样式（非必需）
+        //[self.tableView setMJFooterStyle:MJFooterStyleGroup noMoreStr:@"啦啦啦没有更多了"];
+        
+        //等同于上方写法
+        [self.tableView addPagingWithReqSel:@selector(reqDataList) owner:self];
+        [self.tableView.mj_header beginRefreshing];
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (@available(iOS 11.0, *)) {
-        [[UIScrollView appearance] setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
-    }
-    //此类中的block都不会造成循环引用 无需weakself
-    
     //初始化数据
     [self setData];
     //初始化tableView
     ZXBaseTableView *tableView = [self creatTableView];
-    //设置tableView数据 此set方法会刷新tableView
-    tableView.zxDatas = self.dataSource;
     //设置对应indexPath的cell类
     tableView.cellClassAtIndexPath = ^Class(NSIndexPath *indexPath) {
         //是否为xib并且如何加载内部会自动处理
@@ -69,6 +91,7 @@
         headerLabel.textColor = [UIColor whiteColor];
         return headerLabel;
     };
+    //设置HeaderView高度
     tableView.heightForHeaderInSection = ^CGFloat(NSInteger section) {
         if(section == 1){
             return 40;
@@ -76,7 +99,7 @@
             return 0.01;
         }
     };
-    
+    //设置FooterView
     tableView.viewForFooterInSection = ^UIView *(NSInteger section) {
         UILabel *footerLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, KSCREENWIDTH, 40)];
         footerLabel.textAlignment = NSTextAlignmentCenter;
@@ -85,6 +108,7 @@
         footerLabel.textColor = [UIColor whiteColor];
         return footerLabel;
     };
+    //设置FooterView高度
     tableView.heightForFooterInSection = ^CGFloat(NSInteger section) {
         if(section == 3){
             return 40;
@@ -108,7 +132,61 @@
     tableView.zxDelegate = self;
      */
     
+    //设置数据来源
+    UISegmentedControl *segControl = [[UISegmentedControl alloc]initWithItems:@[@"普通模式",@"分页模式"]];
+    self.navigationItem.titleView = segControl;
+    [segControl addTarget:self action:@selector(segControlChange:) forControlEvents:UIControlEventValueChanged];
+    segControl.selectedSegmentIndex = 0;
+    [self segControlChange:segControl];
+    
+    //设置清空按钮
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"清空" style:UIBarButtonItemStylePlain target:self action:@selector(cleanAll)];
+    
 }
+#pragma mark 请求分页数据
+-(void)reqDataList{
+    @ZXWeakSelf(self);
+    [self reqLocalDtatWithParam:@{@"pageNo" : [NSNumber numberWithInteger:self.tableView.pageNo],@"pageCount" : [NSNumber numberWithInteger:self.tableView.pageCount]} successBlock:^(BOOL result,id backData) {
+        @ZXStrongSelf(self)
+        if(result){
+            //请求成功
+            for (id data in (NSMutableArray *)backData) {
+                [self.tableView.zxDatas addObject:data];
+            }
+        }
+        //更新当前TableView状态
+        [self.tableView updateTabViewStatus:result];
+    }];
+    
+}
+
+#pragma mark 模拟网络请求(分页请求测试)
+-(void)reqLocalDtatWithParam:(NSDictionary *)param successBlock:(reqSuccessBlock)successBlock{
+    NSUInteger dataCounts = 34;
+    NSUInteger pageNo = [param[@"pageNo"] integerValue];
+    NSUInteger pageCount = [param[@"pageCount"] integerValue];
+    NSMutableArray *backDatasArr = [NSMutableArray array];
+    NSMutableArray *localDatasArr = [NSMutableArray array];
+    for(NSUInteger i = 0;i < dataCounts;i++){
+        TestModel *model = [[TestModel alloc]init];
+        model.title = @"Test";
+        model.msg = [NSString stringWithFormat:@"测试数据-%lu",i];
+        [localDatasArr addObject:model];
+    }
+    NSUInteger from = (pageNo - 1) * pageCount;
+    from = from >= localDatasArr.count ? localDatasArr.count - 1 : from;
+    NSUInteger to = from + pageCount;
+    to = to >= localDatasArr.count ? localDatasArr.count - 1 : to;
+    for(NSUInteger i = from;i < to;i++){
+        [backDatasArr addObject:localDatasArr[i]];
+    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        successBlock(YES,backDatasArr);
+    });
+    
+}
+
+#pragma mark 普通模式 初始化数据
 -(void)setData{
     for(NSUInteger i = 0; i < 6;i++){
         NSMutableArray *sectionArr = [NSMutableArray array];
@@ -121,6 +199,12 @@
         [self.dataSource addObject:sectionArr];
     }
 }
+#pragma mark 清空所有数据
+-(void)cleanAll{
+    [self.tableView.zxDatas removeAllObjects];
+    [self.tableView reloadData];
+}
+#pragma mark 懒加载
 -(NSMutableArray *)dataSource{
     if(!_dataSource){
         _dataSource = [NSMutableArray array];

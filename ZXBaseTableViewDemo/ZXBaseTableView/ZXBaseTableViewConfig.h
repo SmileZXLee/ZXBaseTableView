@@ -18,4 +18,10 @@
 
 static NSString *const CELLH = @"cellH";
 static NSString *const DATAMODEL = @"model";
+
+static NSUInteger const PAGECOUNT = 10;
+
+static CGFloat const NOMOREDATAVIEWW = 150.0;
+static CGFloat const NOMOREDATAVIEWH = 150.0;
+static NSString *const NOMOREDATAIMGNAME = @"nomoreDataImg";
 #endif /* ZXBaseTableViewConfig_h */

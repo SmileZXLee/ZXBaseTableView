@@ -8,7 +8,15 @@
 
 #import "ZXBaseTableView.h"
 #import "NSObject+SafeSetValue.h"
+#import "MJRefresh.h"
 @interface ZXBaseTableView()<UITableViewDelegate,UITableViewDataSource>
+@property(nonatomic, strong)NSMutableArray *zxLastDatas;
+
+@property(nonatomic, copy)NSString *noMoreStr;
+@property(nonatomic, weak)UIView *noMoreDataView;
+
+@property(nonatomic, assign)MJFooterStyle footerStyle;
+@property(nonatomic, assign)BOOL isMJHeaderRef;
 
 @end
 @implementation ZXBaseTableView
@@ -25,6 +33,10 @@
     }
     return self;
 }
+-(void)awakeFromNib{
+    [super awakeFromNib];
+    [self initialize];
+}
 -(void)dealloc{
     self.delegate = nil;
     self.dataSource = nil;
@@ -33,6 +45,20 @@
 -(void)setZxDatas:(NSMutableArray *)zxDatas{
     _zxDatas = zxDatas;
     [self reloadData];
+    /*
+    @ZXWeakSelf(self);
+    [self.zxDatas obsKey:@"count" handler:^(id newData, id oldData, id owner) {
+        @ZXStrongSelf(self);
+        if(![newData integerValue]){
+            //没有数据
+            [self showNoMoreData];
+            [self reloadData];
+        }else{
+            [self removeNoMoreData];
+        }
+    }];
+     */
+     
 }
 
 #pragma mark - UITableViewDataSource
@@ -125,6 +151,9 @@
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
     if([self.zxDelegate respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)]){
         [self.zxDelegate tableView:tableView didDeselectRowAtIndexPath:indexPath];
+        id model = [self getModelAtIndexPath:indexPath];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        !self.didDeselectedAtIndexPath ? : self.didDeselectedAtIndexPath(indexPath,model,cell);
     }
 }
 #pragma mark tableView cell高度
@@ -255,6 +284,9 @@
 -(void)initialize{
     self.delegate = self;
     self.dataSource = self;
+    self.pageCount = 1;
+    self.pageCount = PAGECOUNT;
+    
 }
 #pragma mark 判断是否是多个section的情况
 -(BOOL)isMultiDatas{
@@ -270,6 +302,120 @@
         model = self.zxDatas[indexPath.row];
     }
     return model;
+}
+#pragma mark 暂无数据相关
+-(void)showNoMoreData{
+    UIView *noMoreDataView = [[UIView alloc]init];
+    CGFloat noMoreDataViewW = NOMOREDATAVIEWW;
+    CGFloat noMoreDataViewH = NOMOREDATAVIEWH;
+    CGFloat noMoreDataViewX = (KSCREENWIDTH - noMoreDataViewW) / 2.0;
+    CGFloat noMoreDataViewY = (self.frame.size.height - self.tableHeaderView.frame.size.height - noMoreDataViewH) / 2.0;
+    noMoreDataView.frame = CGRectMake(noMoreDataViewX, noMoreDataViewY, noMoreDataViewW, noMoreDataViewH);
+    
+    UIImageView *subImgV = [[UIImageView alloc]init];
+    subImgV.image = [UIImage imageNamed:NOMOREDATAIMGNAME];
+    subImgV.frame = CGRectMake(0, 0, noMoreDataViewW, noMoreDataViewH);
+    subImgV.contentMode = UIViewContentModeScaleAspectFit;
+    [noMoreDataView addSubview:subImgV];
+    [self addSubview:noMoreDataView];
+    self.noMoreDataView = noMoreDataView;
+}
+-(void)removeNoMoreData{
+    if(self.noMoreDataView){
+        [self.noMoreDataView removeFromSuperview];
+        self.noMoreDataView = nil;
+    }
+}
+#pragma mark 重写reloadData
+-(void)reloadData{
+    [super reloadData];
+    if(!self.zxDatas.count){
+        //没有数据
+        [self showNoMoreData];
+        self.mj_footer.hidden = YES;
+    }else{
+        [self removeNoMoreData];
+        self.mj_footer.hidden = NO;
+    }
+}
+
+#pragma mark - MJRefresh相关 若未使用MJRefresh 下方代码可以注释掉
+-(void)setMJFooterStyle:(MJFooterStyle)style noMoreStr:(NSString *)noMoreStr{
+    self.footerStyle = style;
+    self.noMoreStr = noMoreStr;
+}
+-(void)addMJHeader:(headerBlock)block{
+    @ZXWeakSelf(self);
+    self.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        @ZXStrongSelf(self);
+        self.isMJHeaderRef = YES;
+        if(self.zxDatas.count % self.pageCount){
+            self.mj_footer.state = MJRefreshStateNoMoreData;
+        }
+        [self.zxDatas removeAllObjects];
+        self.pageNo = 1;
+        block();
+    }];
+}
+-(void)addMJFooter:(footerBlock)block{
+    [self addMJFooterStyle:self.footerStyle noMoreStr:self.noMoreStr block:block];
+}
+-(void)addMJFooterStyle:(MJFooterStyle)style noMoreStr:(NSString *)noMoreStr block:(footerBlock)block{
+    self.isMJHeaderRef = NO;
+    if(style == MJFooterStylePlain){
+        self.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+            block();
+        }];
+        MJRefreshBackNormalFooter *foot = (MJRefreshBackNormalFooter *)self.mj_footer;
+        [foot setTitle:noMoreStr forState:MJRefreshStateNoMoreData];
+    }else{
+        self.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            block();
+        }];
+        if(self.noMoreStr.length){
+            MJRefreshAutoNormalFooter *foot = (MJRefreshAutoNormalFooter *)self.mj_footer;
+            [foot setTitle:noMoreStr forState:MJRefreshStateNoMoreData];
+        }
+    }
+}
+-(void)addPagingWithReqSel:(SEL _Nullable )sel owner:(id)owner{
+    [self addMJHeader:^{
+        if([owner respondsToSelector:sel]){
+            ((void (*)(id, SEL))[owner methodForSelector:sel])(owner, sel);
+        }
+    }];
+    [self addMJFooter:^{
+        if([owner respondsToSelector:sel]){
+            ((void (*)(id, SEL))[owner methodForSelector:sel])(owner, sel);
+        }
+    }];
+}
+-(void)updateTabViewStatus:(BOOL)status{
+    [self endMjRef];
+    if(status){
+        self.pageNo++;
+        if(!self.zxDatas.count){
+            self.mj_footer.hidden = YES;
+        }else{
+            self.mj_footer.hidden = NO;
+            if(self.zxDatas.count % self.pageCount || self.zxLastDatas.count == self.zxDatas.count){
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    self.mj_footer.state = MJRefreshStateNoMoreData;
+                });
+                
+            }
+        }
+        if(!self.isMJHeaderRef){
+            self.zxLastDatas = [self.zxDatas mutableCopy];
+        }
+    }else{
+        self.mj_footer.hidden = YES;
+    }
+}
+-(void)endMjRef{
+    [self reloadData];
+    [self.mj_header endRefreshing];
+    [self.mj_footer endRefreshing];
 }
 
 @end

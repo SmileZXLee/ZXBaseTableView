@@ -24,14 +24,21 @@
 -(NSMutableArray *)getAllPropertyNames{
     NSMutableArray *propertyNamesArr = [NSMutableArray array];
     propertyNamesArr = [self getPropertyNames];
-    //这边只去获取上一级父类
-    if(![self superclassIsSysClass]){
-        NSMutableArray *superclassproArr = [self.superclass getPropertyNames];
-        for (NSString *superclassproStr in superclassproArr) {
-            [propertyNamesArr addObject:superclassproStr];
+    Class class = self.superclass;
+    while (true) {
+        if(![class isSysClass]){
+            NSMutableArray *superclassproArr = [class getPropertyNames];
+            for (NSString *superclassproStr in superclassproArr) {
+                [propertyNamesArr addObject:superclassproStr];
+            }
+            
+        }else{
+            break;
         }
-
+        NSObject *obj = [class new];
+        class = obj.superclass;
     }
+    
     return propertyNamesArr;
 }
 -(NSMutableArray *)getAllValues{
@@ -77,5 +84,8 @@
 }
 -(BOOL)superclassIsSysClass{
     return !([NSBundle bundleForClass:self.superclass] == [NSBundle mainBundle]);
+}
+-(BOOL)isSysClass{
+    return !([NSBundle bundleForClass:[self class]] == [NSBundle mainBundle]);
 }
 @end
