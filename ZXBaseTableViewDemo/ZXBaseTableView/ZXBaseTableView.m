@@ -60,7 +60,14 @@
      */
      
 }
-
+-(void)setDisableAutomaticDimension:(BOOL)disableAutomaticDimension{
+    _disableAutomaticDimension = disableAutomaticDimension;
+    if(disableAutomaticDimension){
+        self.estimatedRowHeight = 0;
+        self.estimatedSectionHeaderHeight = 0;
+        self.estimatedSectionFooterHeight = 0;
+    }
+}
 #pragma mark - UITableViewDataSource
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     if([self.zxDataSource respondsToSelector:@selector(cellForRowAtIndexPath:)]){

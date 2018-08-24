@@ -36,7 +36,8 @@ typedef void(^footerBlock) (void);
 @property (nonatomic, copy) CGFloat (^heightForHeaderInSection)(NSInteger section);
 ///设置FooterView高度(非必须)
 @property (nonatomic, copy) CGFloat (^heightForFooterInSection)(NSInteger section);
-
+///禁止系统Cell自动高度 可以有效解决tableView跳动问题
+@property(nonatomic, assign)BOOL disableAutomaticDimension;
 
 #pragma mark - 数据获取
 ///获取选中某一行
