@@ -19,9 +19,15 @@
 static NSString *const CELLH = @"cellH";
 static NSString *const DATAMODEL = @"model";
 
+///分页数量
 static NSUInteger const PAGECOUNT = 10;
-
+///暂无更多View宽度
 static CGFloat const NOMOREDATAVIEWW = 150.0;
+///暂无更多View高度
 static CGFloat const NOMOREDATAVIEWH = 150.0;
+
+///暂无更多数据图片
 static NSString *const NOMOREDATAIMGNAME = @"nomoreDataImg";
+///请求出错图片
+static NSString *const NETERRIMGNAME = @"netErrImg";
 #endif /* ZXBaseTableViewConfig_h */

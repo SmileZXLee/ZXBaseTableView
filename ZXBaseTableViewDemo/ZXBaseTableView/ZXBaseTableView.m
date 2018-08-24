@@ -311,7 +311,8 @@
     return model;
 }
 #pragma mark 暂无数据相关
--(void)showNoMoreData{
+-(void)showNoMoreDataWithStates:(PlaceImgState)state{
+    [self removeNoMoreData];
     UIView *noMoreDataView = [[UIView alloc]init];
     CGFloat noMoreDataViewW = NOMOREDATAVIEWW;
     CGFloat noMoreDataViewH = NOMOREDATAVIEWH;
@@ -320,7 +321,11 @@
     noMoreDataView.frame = CGRectMake(noMoreDataViewX, noMoreDataViewY, noMoreDataViewW, noMoreDataViewH);
     
     UIImageView *subImgV = [[UIImageView alloc]init];
-    subImgV.image = [UIImage imageNamed:NOMOREDATAIMGNAME];
+    if(state == PlaceImgStateNoMoreData){
+        subImgV.image = [UIImage imageNamed:NOMOREDATAIMGNAME];
+    }else{
+        subImgV.image = [UIImage imageNamed:NETERRIMGNAME];
+    }
     subImgV.frame = CGRectMake(0, 0, noMoreDataViewW, noMoreDataViewH);
     subImgV.contentMode = UIViewContentModeScaleAspectFit;
     [noMoreDataView addSubview:subImgV];
@@ -338,7 +343,7 @@
     [super reloadData];
     if(!self.zxDatas.count){
         //没有数据
-        [self showNoMoreData];
+        [self showNoMoreDataWithStates:PlaceImgStateNoMoreData];
         self.mj_footer.hidden = YES;
     }else{
         [self removeNoMoreData];
@@ -419,6 +424,9 @@
         }
     }else{
         self.mj_footer.hidden = YES;
+        if(!self.zxDatas.count){
+            [self showNoMoreDataWithStates:PlaceImgStateNetErr];
+        }
         if(self.pageNo > 1){
             self.pageNo--;
         }

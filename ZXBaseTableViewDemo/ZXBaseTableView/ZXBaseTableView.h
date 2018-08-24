@@ -14,6 +14,12 @@ typedef NS_OPTIONS(NSUInteger, MJFooterStyle) {
     ///加载结束看不到MJFooter
     MJFooterStylePlain,
 };
+typedef NS_OPTIONS(NSUInteger, PlaceImgState) {
+    ///暂无数据占位图
+    PlaceImgStateNoMoreData = 0,
+    ///网络错误占位图
+    PlaceImgStateNetErr,
+};
 typedef void(^headerBlock) (void);
 typedef void(^footerBlock) (void);
 @interface ZXBaseTableView : UITableView
