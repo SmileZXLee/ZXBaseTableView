@@ -361,15 +361,18 @@
     [self addMJFooterStyle:self.footerStyle noMoreStr:self.noMoreStr block:block];
 }
 -(void)addMJFooterStyle:(MJFooterStyle)style noMoreStr:(NSString *)noMoreStr block:(footerBlock)block{
-    self.isMJHeaderRef = NO;
     if(style == MJFooterStylePlain){
         self.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+            self.isMJHeaderRef = NO;
+            self.pageNo++;
             block();
         }];
         MJRefreshBackNormalFooter *foot = (MJRefreshBackNormalFooter *)self.mj_footer;
         [foot setTitle:noMoreStr forState:MJRefreshStateNoMoreData];
     }else{
         self.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            self.isMJHeaderRef = NO;
+            self.pageNo++;
             block();
         }];
         if(self.noMoreStr.length){
@@ -393,7 +396,6 @@
 -(void)updateTabViewStatus:(BOOL)status{
     [self endMjRef];
     if(status){
-        self.pageNo++;
         if(!self.zxDatas.count){
             self.mj_footer.hidden = YES;
         }else{
@@ -410,6 +412,9 @@
         }
     }else{
         self.mj_footer.hidden = YES;
+        if(self.pageNo > 1){
+            self.pageNo--;
+        }
     }
 }
 -(void)endMjRef{
