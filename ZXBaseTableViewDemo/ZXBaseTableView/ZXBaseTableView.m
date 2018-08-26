@@ -518,6 +518,7 @@
         }
         if(self.pageNo > 1){
             self.pageNo--;
+            [self.zxLastDatas removeAllObjects];
         }
     }
 }
