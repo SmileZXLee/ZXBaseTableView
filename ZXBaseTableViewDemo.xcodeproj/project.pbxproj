@@ -30,6 +30,8 @@
 		74592F86212E631600690410 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 74592F6E212E631600690410 /* MJRefreshComponent.m */; };
 		74592F87212E631600690410 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 74592F71212E631600690410 /* README.md */; };
 		74592F8A212EB25200690410 /* NSObject+ZXKVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 74592F89212EB25200690410 /* NSObject+ZXKVO.m */; };
+		74592F90213001BF00690410 /* UIView+GetCurrentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 74592F8F213001BF00690410 /* UIView+GetCurrentVC.m */; };
+		74C3284F213271A100580CD0 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C3284E213271A100580CD0 /* UIView+Toast.m */; };
 		74EFD227212D394B00D689B2 /* ZXBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EFD222212D394B00D689B2 /* ZXBaseModel.m */; };
 		74EFD228212D394B00D689B2 /* ZXBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EFD223212D394B00D689B2 /* ZXBaseCell.m */; };
 		74F9B637212A77B5007D3BBA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74F9B636212A77B5007D3BBA /* AppDelegate.m */; };
@@ -111,6 +113,10 @@
 		74592F71212E631600690410 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		74592F88212EB25100690410 /* NSObject+ZXKVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ZXKVO.h"; sourceTree = "<group>"; };
 		74592F89212EB25200690410 /* NSObject+ZXKVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ZXKVO.m"; sourceTree = "<group>"; };
+		74592F8E213001BF00690410 /* UIView+GetCurrentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+GetCurrentVC.h"; sourceTree = "<group>"; };
+		74592F8F213001BF00690410 /* UIView+GetCurrentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+GetCurrentVC.m"; sourceTree = "<group>"; };
+		74C3284D213271A100580CD0 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
+		74C3284E213271A100580CD0 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		74EFD222212D394B00D689B2 /* ZXBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXBaseModel.m; sourceTree = "<group>"; };
 		74EFD223212D394B00D689B2 /* ZXBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXBaseCell.m; sourceTree = "<group>"; };
 		74EFD224212D394B00D689B2 /* ZXBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXBaseModel.h; sourceTree = "<group>"; };
@@ -279,6 +285,15 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
+		74C3284C213271A100580CD0 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				74C3284D213271A100580CD0 /* UIView+Toast.h */,
+				74C3284E213271A100580CD0 /* UIView+Toast.m */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
 		74F9B629212A77B5007D3BBA = {
 			isa = PBXGroup;
 			children = (
@@ -304,6 +319,7 @@
 			children = (
 				74F9B667212A7A13007D3BBA /* ZXBaseTableView */,
 				74F9B687212BC95B007D3BBA /* Test */,
+				74C3284C213271A100580CD0 /* Toast */,
 				74592F40212E631600690410 /* MJRefresh */,
 				74F9B635212A77B5007D3BBA /* AppDelegate.h */,
 				74F9B636212A77B5007D3BBA /* AppDelegate.m */,
@@ -360,6 +376,8 @@
 				74F9B684212B1978007D3BBA /* NSObject+SafeSetValue.m */,
 				74592F88212EB25100690410 /* NSObject+ZXKVO.h */,
 				74592F89212EB25200690410 /* NSObject+ZXKVO.m */,
+				74592F8E213001BF00690410 /* UIView+GetCurrentVC.h */,
+				74592F8F213001BF00690410 /* UIView+GetCurrentVC.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -533,6 +551,7 @@
 				74F9B63A212A77B5007D3BBA /* ViewController.m in Sources */,
 				74EFD227212D394B00D689B2 /* ZXBaseModel.m in Sources */,
 				74592F83212E631600690410 /* MJRefreshHeader.m in Sources */,
+				74592F90213001BF00690410 /* UIView+GetCurrentVC.m in Sources */,
 				74592F8A212EB25200690410 /* NSObject+ZXKVO.m in Sources */,
 				74592F84212E631600690410 /* MJRefreshBackFooter.m in Sources */,
 				74592F7A212E631600690410 /* MJRefreshBackStateFooter.m in Sources */,
@@ -543,6 +562,7 @@
 				74F9B645212A77B5007D3BBA /* main.m in Sources */,
 				74F9B685212B1978007D3BBA /* NSObject+SafeSetValue.m in Sources */,
 				74592F73212E631600690410 /* UIScrollView+MJRefresh.m in Sources */,
+				74C3284F213271A100580CD0 /* UIView+Toast.m in Sources */,
 				74592F82212E631600690410 /* MJRefreshFooter.m in Sources */,
 				74EFD228212D394B00D689B2 /* ZXBaseCell.m in Sources */,
 				74F9B671212A8FBF007D3BBA /* UIViewController+TableView.m in Sources */,

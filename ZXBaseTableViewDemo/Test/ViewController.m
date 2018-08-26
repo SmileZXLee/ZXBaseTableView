@@ -5,7 +5,7 @@
 //  Created by 李兆祥 on 2018/8/20.
 //  Copyright © 2018年 李兆祥. All rights reserved.
 //
-typedef void(^reqSuccessBlock) (BOOL result,id backData);
+
 #import "ViewController.h"
 
 #import "XibTestCell.h"
@@ -13,6 +13,7 @@ typedef void(^reqSuccessBlock) (BOOL result,id backData);
 #import "TestModel.h"
 
 #import "MJRefresh.h"
+typedef void(^reqResultBlock) (BOOL result,id backData);
 @interface ViewController ()
 @property(nonatomic, weak)ZXBaseTableView *tableView;
 @property(nonatomic, strong)NSMutableArray *dataSource;
@@ -42,7 +43,7 @@ typedef void(^reqSuccessBlock) (BOOL result,id backData);
         //[self.tableView setMJFooterStyle:MJFooterStyleGroup noMoreStr:@"啦啦啦没有更多了"];
         
         //等同于上方写法
-        [self.tableView addPagingWithReqSel:@selector(reqDataList) owner:self];
+        [self.tableView addPagingWithReqSel:@selector(reqDataList)];
         [self.tableView.mj_header beginRefreshing];
     }
 }
@@ -146,7 +147,7 @@ typedef void(^reqSuccessBlock) (BOOL result,id backData);
 #pragma mark 请求分页数据
 -(void)reqDataList{
     @ZXWeakSelf(self);
-    [self reqLocalDtatWithParam:@{@"pageNo" : [NSNumber numberWithInteger:self.tableView.pageNo],@"pageCount" : [NSNumber numberWithInteger:self.tableView.pageCount]} successBlock:^(BOOL result,id backData) {
+    [self reqLocalDtatWithParam:@{@"pageNo" : [NSNumber numberWithInteger:self.tableView.pageNo],@"pageCount" : [NSNumber numberWithInteger:self.tableView.pageCount]} resultBlock:^(BOOL result,id backData) {
         @ZXStrongSelf(self)
         if(result){
             //请求成功
@@ -155,17 +156,19 @@ typedef void(^reqSuccessBlock) (BOOL result,id backData);
             }
         }
         //更新当前TableView状态
-        [self.tableView updateTabViewStatus:result];
+        //[self.tableView updateTabViewStatus:result];
+        
+        [self.tableView updateTabViewStatus:result errDic:backData backSel:@selector(reqDataList)];
     }];
     
 }
 
-#pragma mark 模拟网络请求(分页请求测试)
--(void)reqLocalDtatWithParam:(NSDictionary *)param successBlock:(reqSuccessBlock)successBlock{
+#pragma mark 模拟从服务器获取数据(分页请求测试)
+-(void)reqLocalDtatWithParam:(NSDictionary *)param resultBlock:(reqResultBlock)resultBlock{
     NSUInteger dataCounts = 34;
     NSUInteger pageNo = [param[@"pageNo"] integerValue];
     NSUInteger pageCount = [param[@"pageCount"] integerValue];
-    NSMutableArray *backDatasArr = [NSMutableArray array];
+    id backDatas = [NSMutableArray array];
     NSMutableArray *localDatasArr = [NSMutableArray array];
     for(NSUInteger i = 0;i < dataCounts;i++){
         TestModel *model = [[TestModel alloc]init];
@@ -178,10 +181,16 @@ typedef void(^reqSuccessBlock) (BOOL result,id backData);
     NSUInteger to = from + pageCount;
     to = to >= localDatasArr.count ? localDatasArr.count - 1 : to;
     for(NSUInteger i = from;i < to;i++){
-        [backDatasArr addObject:localDatasArr[i]];
+        [backDatas addObject:localDatasArr[i]];
+    }
+    //加一些随机的假的错误情况
+    BOOL success = arc4random_uniform(2);
+    NSArray *errCodeArr = @[@-1009,@-1000,@-1001,@-1002];
+    if(!success){
+        backDatas = [NSDictionary dictionaryWithObjects:@[errCodeArr[(int32_t)arc4random_uniform((int32_t)errCodeArr.count)],@"错误测试"] forKeys:@[@"code",@"message"]];
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        successBlock(YES,backDatasArr);
+        resultBlock(success,backDatas);
     });
     
 }

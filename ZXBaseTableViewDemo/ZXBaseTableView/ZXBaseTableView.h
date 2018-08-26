@@ -15,10 +15,14 @@ typedef NS_OPTIONS(NSUInteger, MJFooterStyle) {
     MJFooterStylePlain,
 };
 typedef NS_OPTIONS(NSUInteger, PlaceImgState) {
-    ///暂无数据占位图
+    ///暂无数据
     PlaceImgStateNoMoreData = 0,
-    ///网络错误占位图
+    ///网络错误普遍处理
     PlaceImgStateNetErr,
+    ///网络错误特定处理
+    PlaceImgStateNetErrpecific,
+    ///不显示错误占位图，仅弹窗提示
+    PlaceImgStateOnlyToast,
 };
 typedef void(^headerBlock) (void);
 typedef void(^footerBlock) (void);
@@ -87,9 +91,11 @@ typedef void(^footerBlock) (void);
 ///添加MJFooter 同时设置样式
 -(void)addMJFooterStyle:(MJFooterStyle)style noMoreStr:(NSString *_Nullable)noMoreStr block:(footerBlock _Nullable )block;
 ///添加分页操作 传入请求分页数据的方法和方法所属的控制器
--(void)addPagingWithReqSel:(SEL _Nullable )sel owner:(id _Nullable )owner;
+-(void)addPagingWithReqSel:(SEL _Nullable )sel;
 ///停止MJHeader和MJFooter刷新状态
 -(void)endMjRef;
 ///分页接口调取完毕更新tableView状态，status为分页接口调取结果，YES为请求成功，NO为失败
 -(void)updateTabViewStatus:(BOOL)status;
+///分页接口调取完毕更新tableView状态，status为分页接口调取结果，YES为请求成功，NO为失败。 errDic为错误状态字典 backSel为用户点击重新刷新调用的方法 status = YES二者无效
+-(void)updateTabViewStatus:(BOOL)status errDic:(NSDictionary *_Nullable)errDic backSel:(SEL _Nullable )backSel;
 @end

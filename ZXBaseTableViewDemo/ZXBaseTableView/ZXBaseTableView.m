@@ -8,6 +8,8 @@
 
 #import "ZXBaseTableView.h"
 #import "NSObject+SafeSetValue.h"
+#import "UIView+GetCurrentVC.h"
+
 #import "MJRefresh.h"
 @interface ZXBaseTableView()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic, strong)NSMutableArray *zxLastDatas;
@@ -310,8 +312,12 @@
     }
     return model;
 }
-#pragma mark 暂无数据相关
--(void)showNoMoreDataWithStates:(PlaceImgState)state{
+#pragma mark 暂无数据 & 网络错误相关
+-(void)showNoMoreDataWithStates:(PlaceImgState)state errorDic:(NSDictionary *)errorDic backSel:(SEL)backSel{
+    int errorCode = 0;
+    if([errorDic.allKeys containsObject:NETERR_CODE]){
+        errorCode = [errorDic[NETERR_CODE] intValue];
+    }
     [self removeNoMoreData];
     UIView *noMoreDataView = [[UIView alloc]init];
     CGFloat noMoreDataViewW = NOMOREDATAVIEWW;
@@ -319,16 +325,83 @@
     CGFloat noMoreDataViewX = (KSCREENWIDTH - noMoreDataViewW) / 2.0;
     CGFloat noMoreDataViewY = (self.frame.size.height - self.tableHeaderView.frame.size.height - noMoreDataViewH) / 2.0;
     noMoreDataView.frame = CGRectMake(noMoreDataViewX, noMoreDataViewY, noMoreDataViewW, noMoreDataViewH);
-    
     UIImageView *subImgV = [[UIImageView alloc]init];
-    if(state == PlaceImgStateNoMoreData){
-        subImgV.image = [UIImage imageNamed:NOMOREDATAIMGNAME];
-    }else{
-        subImgV.image = [UIImage imageNamed:NETERRIMGNAME];
-    }
     subImgV.frame = CGRectMake(0, 0, noMoreDataViewW, noMoreDataViewH);
-    subImgV.contentMode = UIViewContentModeScaleAspectFit;
-    [noMoreDataView addSubview:subImgV];
+    if(state == PlaceImgStateNoMoreData){
+        //显示暂无数据
+        subImgV.image = [UIImage imageNamed:NOMOREDATAIMGNAME];
+    }else if(state == PlaceImgStateNetErr){
+        //显示网络错误普遍处理
+        subImgV.image = [UIImage imageNamed:NETERRIMGNAME];
+    }else{
+        //显示网络根据特定情况处理
+        subImgV.frame = CGRectMake(0, 0, noMoreDataViewW, noMoreDataViewH - RELOADBTNH - 2 * RELOADBTNMARGIN);
+        UIButton *reloadBtn = [[UIButton alloc]init];
+        CGFloat reloadBtnW = RELOADBTNW;
+        CGFloat reloadBtnH = RELOADBTNH;
+        CGFloat reloadBtnX = (noMoreDataViewW - RELOADBTNW) / 2.0;
+        CGFloat reloadBtnY = CGRectGetMaxY(subImgV.frame) + RELOADBTNMARGIN;
+        reloadBtn.frame = CGRectMake(reloadBtnX, reloadBtnY, reloadBtnW, reloadBtnH);
+        [reloadBtn setTitle:RELOADBTNTEXT forState:UIControlStateNormal];
+        [reloadBtn setTitleColor:UIColorFromRGB(RELOADBTNMAINCOLOR) forState:UIControlStateNormal];
+        reloadBtn.titleLabel.font = [UIFont systemFontOfSize:RELOADBTNFONTSIZE];
+        reloadBtn.clipsToBounds = YES;
+        reloadBtn.layer.borderWidth = 1;
+        reloadBtn.layer.borderColor = UIColorFromRGB(RELOADBTNMAINCOLOR).CGColor;
+        reloadBtn.layer.cornerRadius = 2;
+        [reloadBtn addTarget:[self getCurrentVC] action:backSel forControlEvents:UIControlEventTouchUpInside];
+        switch (errorCode)
+        {   //无网络连接
+            case -1009:
+            {
+                //无网络连接
+                subImgV.image = [UIImage imageNamed:NETERRIMGNAME_NO_NET];
+                ZXToast(NETERRTOAST_NO_NET);
+                break;
+            }
+            case -1000:
+            {   
+                //请求失败
+                subImgV.image = [UIImage imageNamed:NETERRIMGNAME_REQ_ERROR];
+                ZXToast(NETERRTOAST_REQ_ERROR);
+                break;
+            }
+            case -1001:
+            {
+                //请求超时
+                subImgV.image = [UIImage imageNamed:NETERRIMGNAME_TIME_OUT];
+                ZXToast(NETERRTOAST_TIME_OUT);
+                break;
+            }
+            case -1002:
+            {
+                //请求地址出错
+                subImgV.image = [UIImage imageNamed:NETERRIMGNAME_ADDRESS_ERR];
+                ZXToast(NETERRTOAST_ADDRESS_ERR);
+                break;
+            }
+                
+            default:
+            {
+                //其他错误
+                subImgV.image = [UIImage imageNamed:NETERRIMGNAME_OTHER_ERR];
+                if([errorDic.allKeys containsObject:@"message"]){
+                    ZXToast([errorDic valueForKey:@"message"]);
+                }else{
+                    ZXToast(NETERRTOAST_OTHER_ERR);
+                }
+                
+                break;
+            }
+        }
+        if(state == PlaceImgStateNetErrpecific){
+            [noMoreDataView addSubview:reloadBtn];
+        }
+    }
+    if(state != PlaceImgStateOnlyToast){
+        subImgV.contentMode = UIViewContentModeScaleAspectFit;
+        [noMoreDataView addSubview:subImgV];
+    }
     [self addSubview:noMoreDataView];
     self.noMoreDataView = noMoreDataView;
 }
@@ -343,7 +416,8 @@
     [super reloadData];
     if(!self.zxDatas.count){
         //没有数据
-        [self showNoMoreDataWithStates:PlaceImgStateNoMoreData];
+        NSDictionary *errDic = [NSDictionary dictionaryWithObjects:@[@0,@""] forKeys:@[NETERR_CODE,NETERR_MESSAGE]];
+        [self showNoMoreDataWithStates:PlaceImgStateNoMoreData errorDic:errDic backSel:nil];
         self.mj_footer.hidden = YES;
     }else{
         [self removeNoMoreData];
@@ -393,21 +467,30 @@
         }
     }
 }
--(void)addPagingWithReqSel:(SEL _Nullable )sel owner:(id)owner{
+-(void)addPagingWithReqSel:(SEL _Nullable )sel{
+    @ZXWeakSelf(self);
     [self addMJHeader:^{
-        if([owner respondsToSelector:sel]){
-            ((void (*)(id, SEL))[owner methodForSelector:sel])(owner, sel);
+        @ZXStrongSelf(self);
+        id target = [self getCurrentVC];
+        if([target respondsToSelector:sel]){
+            ((void (*)(id, SEL))[target methodForSelector:sel])(target, sel);
         }
     }];
     [self addMJFooter:^{
-        if([owner respondsToSelector:sel]){
-            ((void (*)(id, SEL))[owner methodForSelector:sel])(owner, sel);
+        @ZXStrongSelf(self);
+        id target = [self getCurrentVC];
+        if([target respondsToSelector:sel]){
+            ((void (*)(id, SEL))[target methodForSelector:sel])(target, sel);
         }
     }];
 }
 -(void)updateTabViewStatus:(BOOL)status{
+    [self updateTabViewStatus:status errDic:nil backSel:nil];
+}
+-(void)updateTabViewStatus:(BOOL)status errDic:(NSDictionary *)errDic backSel:(SEL)backSel{
     [self endMjRef];
     if(status){
+        self.mj_footer.hidden = NO;
         if(!self.zxDatas.count){
             self.mj_footer.hidden = YES;
         }else{
@@ -423,9 +506,15 @@
             self.zxLastDatas = [self.zxDatas mutableCopy];
         }
     }else{
-        self.mj_footer.hidden = YES;
         if(!self.zxDatas.count){
-            [self showNoMoreDataWithStates:PlaceImgStateNetErr];
+            self.mj_footer.hidden = YES;
+            if(!errDic){
+                [self showNoMoreDataWithStates:PlaceImgStateNetErr errorDic:errDic backSel:backSel];
+            }else{
+                [self showNoMoreDataWithStates:PlaceImgStateNetErrpecific errorDic:errDic backSel:backSel];
+            }
+        }else{
+            [self showNoMoreDataWithStates:PlaceImgStateOnlyToast errorDic:errDic backSel:backSel];
         }
         if(self.pageNo > 1){
             self.pageNo--;
