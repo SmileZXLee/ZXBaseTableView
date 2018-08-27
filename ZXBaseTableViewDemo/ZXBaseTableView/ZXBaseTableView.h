@@ -82,6 +82,10 @@ typedef void(^footerBlock) (void);
 @property(nonatomic,assign)NSUInteger pageNo;
 ///分页Count
 @property(nonatomic,assign)NSUInteger pageCount;
+///隐藏重新加载按钮 默认显示
+@property(nonatomic, assign)BOOL hideReloadBtn;
+///隐藏错误提示Toast 默认显示
+@property(nonatomic, assign)BOOL hideMsgToast;
 ///设置MJFooter样式（非必需），请在addFooter或addPagingWithReqSel之前设置。MJFooterStylePlain加载结束看不到MJFooter，MJFooterStyleGroup加载结束可以看到MJFooter和对应的提示文字，noMoreStr即为对应提示文字，默认为“已经全部加载完毕”，MJFooterStyle默认属性为MJFooterStyleGroup。
 -(void)setMJFooterStyle:(MJFooterStyle)style noMoreStr:(NSString *_Nullable)noMoreStr;
 ///添加MJHeader
@@ -98,4 +102,5 @@ typedef void(^footerBlock) (void);
 -(void)updateTabViewStatus:(BOOL)status;
 ///分页接口调取完毕更新tableView状态，status为分页接口调取结果，YES为请求成功，NO为失败。 errDic为错误状态字典 backSel为用户点击重新刷新调用的方法 status = YES二者无效
 -(void)updateTabViewStatus:(BOOL)status errDic:(NSDictionary *_Nullable)errDic backSel:(SEL _Nullable )backSel;
+
 @end

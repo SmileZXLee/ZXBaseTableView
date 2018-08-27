@@ -335,10 +335,13 @@
         subImgV.image = [UIImage imageNamed:NETERRIMGNAME];
     }else{
         //显示网络根据特定情况处理
-        subImgV.frame = CGRectMake(0, 0, noMoreDataViewW, noMoreDataViewH - RELOADBTNH - 2 * RELOADBTNMARGIN);
+        if(!self.hideReloadBtn){
+            subImgV.frame = CGRectMake(0, 0, noMoreDataViewW, noMoreDataViewH - RELOADBTNH - 2 * RELOADBTNMARGIN);
+        }
         UIButton *reloadBtn = [[UIButton alloc]init];
+        reloadBtn.clipsToBounds = YES;
         CGFloat reloadBtnW = RELOADBTNW;
-        CGFloat reloadBtnH = RELOADBTNH;
+        CGFloat reloadBtnH = self.hideReloadBtn ? 0 : RELOADBTNH;
         CGFloat reloadBtnX = (noMoreDataViewW - RELOADBTNW) / 2.0;
         CGFloat reloadBtnY = CGRectGetMaxY(subImgV.frame) + RELOADBTNMARGIN;
         reloadBtn.frame = CGRectMake(reloadBtnX, reloadBtnY, reloadBtnW, reloadBtnH);
@@ -350,34 +353,43 @@
         reloadBtn.layer.borderColor = UIColorFromRGB(RELOADBTNMAINCOLOR).CGColor;
         reloadBtn.layer.cornerRadius = 2;
         [reloadBtn addTarget:[self getCurrentVC] action:backSel forControlEvents:UIControlEventTouchUpInside];
+        //分开写 比较清晰
         switch (errorCode)
         {   //无网络连接
             case -1009:
             {
                 //无网络连接
                 subImgV.image = [UIImage imageNamed:NETERRIMGNAME_NO_NET];
-                ZXToast(NETERRTOAST_NO_NET);
+                if(!self.hideMsgToast){
+                    ZXToast(NETERRTOAST_NO_NET);
+                }
                 break;
             }
             case -1000:
             {   
                 //请求失败
                 subImgV.image = [UIImage imageNamed:NETERRIMGNAME_REQ_ERROR];
-                ZXToast(NETERRTOAST_REQ_ERROR);
+                if(!self.hideMsgToast){
+                    ZXToast(NETERRTOAST_REQ_ERROR);
+                }
                 break;
             }
             case -1001:
             {
                 //请求超时
                 subImgV.image = [UIImage imageNamed:NETERRIMGNAME_TIME_OUT];
-                ZXToast(NETERRTOAST_TIME_OUT);
+                if(!self.hideMsgToast){
+                    ZXToast(NETERRTOAST_TIME_OUT);
+                }
                 break;
             }
             case -1002:
             {
                 //请求地址出错
                 subImgV.image = [UIImage imageNamed:NETERRIMGNAME_ADDRESS_ERR];
-                ZXToast(NETERRTOAST_ADDRESS_ERR);
+                if(!self.hideMsgToast){
+                    ZXToast(NETERRTOAST_ADDRESS_ERR);
+                }
                 break;
             }
                 
@@ -385,12 +397,13 @@
             {
                 //其他错误
                 subImgV.image = [UIImage imageNamed:NETERRIMGNAME_OTHER_ERR];
-                if([errorDic.allKeys containsObject:@"message"]){
-                    ZXToast([errorDic valueForKey:@"message"]);
-                }else{
-                    ZXToast(NETERRTOAST_OTHER_ERR);
+                if(!self.hideMsgToast){
+                    if([errorDic.allKeys containsObject:@"message"]){
+                        ZXToast([errorDic valueForKey:@"message"]);
+                    }else{
+                        ZXToast(NETERRTOAST_OTHER_ERR);
+                    }
                 }
-                
                 break;
             }
         }
@@ -490,7 +503,6 @@
 -(void)updateTabViewStatus:(BOOL)status errDic:(NSDictionary *)errDic backSel:(SEL)backSel{
     [self endMjRef];
     if(status){
-        self.mj_footer.hidden = NO;
         if(!self.zxDatas.count){
             self.mj_footer.hidden = YES;
         }else{
