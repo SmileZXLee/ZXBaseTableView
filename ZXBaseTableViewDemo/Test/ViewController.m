@@ -53,6 +53,7 @@ typedef void(^reqResultBlock) (BOOL result,id backData);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     //初始化数据
     [self setData];
     //初始化tableView
@@ -76,7 +77,7 @@ typedef void(^reqResultBlock) (BOOL result,id backData);
     };
      */
     
-    //设置cell的高度，因tableview的heightforrow方法在cellforrow之前调用，因此需要model寄存cell高度，若您的cell对应model中含有cellH属性，则无需手动给cell设置高度，ZXBaseTableView会根据当前cell的高度来设置cell高度，无需调用此方法，您也可以在model的cellH中设置自己计算好的高度，则ZXBaseTableView不会去根据获取到的cell高度去给cell赋值高度，而是使用您赋值的cellH，若您实现下方方法，则ZXBaseTableView自动计算高度无效，若您使用了cell自适应高度，则ZXBaseTableView自动计算高度也无效。您可以在ZXBaseTableViewConfig.h中更改cellH的匹配属性名。
+    //设置cell的高度，因tableview的heightforrow方法在cellforrow之前调用，因此需要model寄存cell高度，若您的cell对应model中含有cellH属性(也可不包含)，则无需手动给cell设置高度，ZXBaseTableView会根据当前cell的高度来设置cell高度，无需调用此方法，您也可以在model的cellH中设置自己计算好的高度，则ZXBaseTableView不会去根据获取到的cell高度去给cell赋值高度，而是使用您赋值的cellH，若您实现下方方法，则ZXBaseTableView自动计算高度无效，若您使用了cell自适应高度，则ZXBaseTableView自动计算高度也无效。您可以在ZXBaseTableViewConfig.h中更改cellH的匹配属性名。
     /*
     tableView.cellHAtIndexPath = ^CGFloat(NSIndexPath *indexPath) {
         if(indexPath.row == 0){

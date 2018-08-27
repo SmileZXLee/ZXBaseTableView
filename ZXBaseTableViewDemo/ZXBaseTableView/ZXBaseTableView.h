@@ -56,7 +56,8 @@ typedef void(^footerBlock) (void);
 @property (nonatomic, copy) void (^didDeselectedAtIndexPath)(NSIndexPath *indexPath,id model,UITableViewCell *cell);
 ///获取对应行的cell和model
 @property (nonatomic, copy) void (^cellAtIndexPath)(NSIndexPath *indexPath,UITableViewCell *cell,id model);
-
+///cell将要展示
+@property (nonatomic, copy) void (^willDisplayCell)(NSIndexPath *indexPath,UITableViewCell *cell);
 
 #pragma mark - 代理事件相关
 ///scrollView滚动事件

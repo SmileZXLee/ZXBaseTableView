@@ -9,6 +9,7 @@
 #import "ZXBaseTableView.h"
 #import "NSObject+SafeSetValue.h"
 #import "UIView+GetCurrentVC.h"
+#import "NSObject+Property.h"
 
 #import "MJRefresh.h"
 @interface ZXBaseTableView()<UITableViewDelegate,UITableViewDataSource>
@@ -22,7 +23,20 @@
 
 @end
 @implementation ZXBaseTableView
-
+#pragma mark 初始化(在这边做一些tableView的初始化工作)
+-(void)initialize{
+    self.delegate = self;
+    self.dataSource = self;
+    self.pageCount = 1;
+    self.pageCount = PAGECOUNT;
+    
+    self.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.showsVerticalScrollIndicator = NO;
+    self.showsVerticalScrollIndicator = NO;
+    self.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
+    self.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, CGFLOAT_MIN)];
+    self.backgroundColor = [UIColor clearColor];
+}
 -(instancetype)init{
     if (self = [super init]) {
         [self initialize];
@@ -99,15 +113,32 @@
         }
         CGFloat cellH = ((UITableViewCell *)cell).frame.size.height;
         if(cellH && ![[model safeValueForKeyPath:CELLH] floatValue]){
-            [model safeSetValue:[NSNumber numberWithFloat:cellH] forKeyPath:CELLH];
+            if([[model getAllPropertyNames]containsObject:CELLH]){
+                [model safeSetValue:[NSNumber numberWithFloat:cellH] forKeyPath:CELLH];
+            }else{
+                [model setCellHRunTime:[NSNumber numberWithFloat:cellH]];
+            }
+            
         }
         NSArray *proNames = [cell getAllPropertyNames];
+        BOOL cellContainsModel = NO;
         for (NSString *proStr in proNames) {
             if([proStr.uppercaseString containsString:DATAMODEL.uppercaseString]){
                 [cell safeSetValue:model forKeyPath:proStr];
+                cellContainsModel = YES;
                 break;
             }
         }
+        /*
+        if(!cellContainsModel || ![[model safeValueForKey:CELLH] doubleValue]){
+            if(![[cell getAllPropertyNames]containsObject:CELLH]){
+                [cell safeSetValue:[NSNumber numberWithFloat:cellH] forKey:CELLH];
+            }else{
+              [cell setValue:[NSNumber numberWithFloat:cellH] forUndefinedKey:CELLH];
+            }
+            
+        }
+         */
         !self.cellAtIndexPath ? : self.cellAtIndexPath(indexPath,cell,model);
         //可以在这里设置整个项目cell的属性，也可以在cellAtIndexPath的block中设置当前控制器tableview的cell属性
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -182,11 +213,15 @@
             if(cellH){
                return cellH;
             }else{
-                return 0;
+                return [[model cellHRunTime] floatValue];
             }
         }
         
     }
+}
+#pragma mark tableView cell 将要展示
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    !self.willDisplayCell ? : self.willDisplayCell(indexPath,cell);
 }
 #pragma mark tableView HeaderView & FooterView
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -221,7 +256,7 @@
         if(self.heightForHeaderInSection){
             return self.heightForHeaderInSection(section);
         }else{
-            return 0.01;
+            return CGFLOAT_MIN;
         }
     }
 }
@@ -233,10 +268,11 @@
         if(self.heightForFooterInSection){
             return self.heightForFooterInSection(section);
         }else{
-            return 0.01;
+            return CGFLOAT_MIN;
         }
     }
 }
+
 #pragma mark scrollView相关代理
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if([self.zxDelegate respondsToSelector:@selector(scrollViewDidScroll:)]){
@@ -289,14 +325,6 @@
     }
 }
 #pragma mark - Private
-#pragma mark 初始化
--(void)initialize{
-    self.delegate = self;
-    self.dataSource = self;
-    self.pageCount = 1;
-    self.pageCount = PAGECOUNT;
-    
-}
 #pragma mark 判断是否是多个section的情况
 -(BOOL)isMultiDatas{
     return self.zxDatas.count && [[self.zxDatas objectAtIndex:0] isKindOfClass:[NSArray class]];

@@ -11,6 +11,5 @@
 @interface TestModel : ZXBaseModel
 @property(nonatomic, copy)NSString *title;
 @property(nonatomic, copy)NSString *msg;
-//继承了ZXBaseModel 此行可不写
 //@property(nonatomic, assign)CGFloat cellH;
 @end

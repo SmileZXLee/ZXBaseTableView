@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74486AAB2134516D002105BA /* NSObject+Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 74486AAA2134516C002105BA /* NSObject+Property.m */; };
 		74592F72212E631600690410 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 74592F41212E631600690410 /* LICENSE */; };
 		74592F73212E631600690410 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 74592F43212E631600690410 /* UIScrollView+MJRefresh.m */; };
 		74592F74212E631600690410 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 74592F44212E631600690410 /* MJRefreshConst.m */; };
@@ -69,6 +70,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		74486AA92134516C002105BA /* NSObject+Property.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Property.h"; sourceTree = "<group>"; };
+		74486AAA2134516C002105BA /* NSObject+Property.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Property.m"; sourceTree = "<group>"; };
 		74592F41212E631600690410 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		74592F43212E631600690410 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		74592F44212E631600690410 /* MJRefreshConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshConst.m; sourceTree = "<group>"; };
@@ -378,6 +381,8 @@
 				74592F89212EB25200690410 /* NSObject+ZXKVO.m */,
 				74592F8E213001BF00690410 /* UIView+GetCurrentVC.h */,
 				74592F8F213001BF00690410 /* UIView+GetCurrentVC.m */,
+				74486AA92134516C002105BA /* NSObject+Property.h */,
+				74486AAA2134516C002105BA /* NSObject+Property.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -541,6 +546,7 @@
 				74592F7D212E631600690410 /* MJRefreshAutoGifFooter.m in Sources */,
 				74592F85212E631600690410 /* MJRefreshAutoFooter.m in Sources */,
 				74592F79212E631600690410 /* MJRefreshBackGifFooter.m in Sources */,
+				74486AAB2134516D002105BA /* NSObject+Property.m in Sources */,
 				74592F7B212E631600690410 /* MJRefreshBackNormalFooter.m in Sources */,
 				74F9B67F212AFAC0007D3BBA /* TestModel.m in Sources */,
 				74592F76212E631600690410 /* UIScrollView+MJExtension.m in Sources */,
