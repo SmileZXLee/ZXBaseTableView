@@ -20,6 +20,7 @@
 @property(nonatomic, assign)MJFooterStyle footerStyle;
 @property(nonatomic, assign)BOOL isMJHeaderRef;
 
+@property(nonatomic, strong)MJRefreshHeader *lastMjHeader;
 @end
 @implementation ZXBaseTableView
 
@@ -337,6 +338,11 @@
         //显示网络根据特定情况处理
         if(!self.hideReloadBtn){
             subImgV.frame = CGRectMake(0, 0, noMoreDataViewW, noMoreDataViewH - RELOADBTNH - 2 * RELOADBTNMARGIN);
+            self.mj_header = nil;
+        }else{
+            if(self.lastMjHeader){
+                self.mj_header = self.lastMjHeader;
+            }
         }
         UIButton *reloadBtn = [[UIButton alloc]init];
         reloadBtn.clipsToBounds = YES;
@@ -455,6 +461,7 @@
         self.pageNo = 1;
         block();
     }];
+    self.lastMjHeader = self.mj_header;
 }
 -(void)addMJFooter:(footerBlock)block{
     [self addMJFooterStyle:self.footerStyle noMoreStr:self.noMoreStr block:block];
@@ -503,6 +510,9 @@
 -(void)updateTabViewStatus:(BOOL)status errDic:(NSDictionary *)errDic backSel:(SEL)backSel{
     [self endMjRef];
     if(status){
+        if(self.lastMjHeader){
+            self.mj_header = self.lastMjHeader;
+        }
         if(!self.zxDatas.count){
             self.mj_footer.hidden = YES;
         }else{
