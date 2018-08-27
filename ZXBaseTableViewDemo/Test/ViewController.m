@@ -45,8 +45,8 @@ typedef void(^reqResultBlock) (BOOL result,id backData);
         //等同于上方写法
         [self.tableView addPagingWithReqSel:@selector(reqDataList)];
         [self.tableView.mj_header beginRefreshing];
-        self.tableView.hideReloadBtn = YES;
-        self.tableView.hideMsgToast = YES;
+//        self.tableView.hideReloadBtn = YES;
+//        self.tableView.hideMsgToast = YES;
     }
 }
 
