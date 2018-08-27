@@ -452,6 +452,7 @@
 }
 -(void)addMJHeader:(headerBlock)block{
     @ZXWeakSelf(self);
+#warning 这边可以作整个项目mj_header的初始化工作，比如自定义的mj_header，或者设置mj_header刷新文字，颜色等等
     self.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         @ZXStrongSelf(self);
         self.isMJHeaderRef = YES;
