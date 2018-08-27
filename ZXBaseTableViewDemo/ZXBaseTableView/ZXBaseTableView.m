@@ -20,7 +20,6 @@
 @property(nonatomic, assign)MJFooterStyle footerStyle;
 @property(nonatomic, assign)BOOL isMJHeaderRef;
 
-@property(nonatomic, strong)MJRefreshHeader *lastMjHeader;
 @end
 @implementation ZXBaseTableView
 
@@ -315,11 +314,12 @@
 }
 #pragma mark 暂无数据 & 网络错误相关
 -(void)showNoMoreDataWithStates:(PlaceImgState)state errorDic:(NSDictionary *)errorDic backSel:(SEL)backSel{
+    
     int errorCode = 0;
     if([errorDic.allKeys containsObject:NETERR_CODE]){
         errorCode = [errorDic[NETERR_CODE] intValue];
     }
-    self.scrollEnabled = !self.fixWhenNetErr;
+    
     [self removeNoMoreData];
     UIView *noMoreDataView = [[UIView alloc]init];
     CGFloat noMoreDataViewW = NOMOREDATAVIEWW;
@@ -332,6 +332,9 @@
     if(state == PlaceImgStateNoMoreData){
         //显示暂无数据
         subImgV.image = [UIImage imageNamed:NOMOREDATAIMGNAME];
+        self.mj_header.hidden = NO;
+        self.scrollEnabled  = YES;
+        
     }else if(state == PlaceImgStateNetErr){
         //显示网络错误普遍处理
         subImgV.image = [UIImage imageNamed:NETERRIMGNAME];
@@ -339,11 +342,7 @@
         //显示网络根据特定情况处理
         if(!self.hideReloadBtn){
             subImgV.frame = CGRectMake(0, 0, noMoreDataViewW, noMoreDataViewH - RELOADBTNH - 2 * RELOADBTNMARGIN);
-            self.mj_header = nil;
-        }else{
-            if(self.lastMjHeader){
-                self.mj_header = self.lastMjHeader;
-            }
+            
         }
         UIButton *reloadBtn = [[UIButton alloc]init];
         reloadBtn.clipsToBounds = YES;
@@ -462,7 +461,6 @@
         self.pageNo = 1;
         block();
     }];
-    self.lastMjHeader = self.mj_header;
 }
 -(void)addMJFooter:(footerBlock)block{
     [self addMJFooterStyle:self.footerStyle noMoreStr:self.noMoreStr block:block];
@@ -510,11 +508,20 @@
 }
 -(void)updateTabViewStatus:(BOOL)status errDic:(NSDictionary *)errDic backSel:(SEL)backSel{
     [self endMjRef];
-    self.scrollEnabled = YES;
-    if(status){
-        if(self.lastMjHeader){
-            self.mj_header = self.lastMjHeader;
+    self.mj_header.hidden = NO;
+    if(!status && !self.zxDatas.count){
+        if(self.hideReloadBtn){
+            self.mj_header.hidden = NO;
+        }else{
+            self.mj_header.hidden = YES;
         }
+    }
+    if(!self.zxDatas.count){
+        self.scrollEnabled = !self.fixWhenNetErr;
+    }else{
+        self.scrollEnabled = YES;
+    }
+    if(status){
         if(!self.zxDatas.count){
             self.mj_footer.hidden = YES;
         }else{
