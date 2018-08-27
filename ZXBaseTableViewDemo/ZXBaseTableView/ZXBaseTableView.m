@@ -433,6 +433,7 @@
 #pragma mark 重写reloadData
 -(void)reloadData{
     [super reloadData];
+    self.scrollEnabled = YES;
     if(!self.zxDatas.count){
         //没有数据
         NSDictionary *errDic = [NSDictionary dictionaryWithObjects:@[@0,@""] forKeys:@[NETERR_CODE,NETERR_MESSAGE]];
