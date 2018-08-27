@@ -86,6 +86,8 @@ typedef void(^footerBlock) (void);
 @property(nonatomic, assign)BOOL hideReloadBtn;
 ///隐藏错误提示Toast 默认显示
 @property(nonatomic, assign)BOOL hideMsgToast;
+///是否固定错误提示占位图 默认为可以上下拖动
+@property(nonatomic, assign)BOOL fixWhenNetErr;
 ///设置MJFooter样式（非必需），请在addFooter或addPagingWithReqSel之前设置。MJFooterStylePlain加载结束看不到MJFooter，MJFooterStyleGroup加载结束可以看到MJFooter和对应的提示文字，noMoreStr即为对应提示文字，默认为“已经全部加载完毕”，MJFooterStyle默认属性为MJFooterStyleGroup。
 -(void)setMJFooterStyle:(MJFooterStyle)style noMoreStr:(NSString *_Nullable)noMoreStr;
 ///添加MJHeader

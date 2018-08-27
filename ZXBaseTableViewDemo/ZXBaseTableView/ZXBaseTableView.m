@@ -319,6 +319,7 @@
     if([errorDic.allKeys containsObject:NETERR_CODE]){
         errorCode = [errorDic[NETERR_CODE] intValue];
     }
+    self.scrollEnabled = !self.fixWhenNetErr;
     [self removeNoMoreData];
     UIView *noMoreDataView = [[UIView alloc]init];
     CGFloat noMoreDataViewW = NOMOREDATAVIEWW;
@@ -509,6 +510,7 @@
 }
 -(void)updateTabViewStatus:(BOOL)status errDic:(NSDictionary *)errDic backSel:(SEL)backSel{
     [self endMjRef];
+    self.scrollEnabled = YES;
     if(status){
         if(self.lastMjHeader){
             self.mj_header = self.lastMjHeader;

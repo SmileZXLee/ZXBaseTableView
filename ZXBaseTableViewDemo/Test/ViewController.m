@@ -47,6 +47,7 @@ typedef void(^reqResultBlock) (BOOL result,id backData);
         [self.tableView.mj_header beginRefreshing];
 //        self.tableView.hideReloadBtn = YES;
 //        self.tableView.hideMsgToast = YES;
+        self.tableView.fixWhenNetErr = YES;
     }
 }
 
