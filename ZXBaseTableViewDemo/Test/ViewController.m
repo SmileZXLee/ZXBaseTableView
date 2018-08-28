@@ -28,6 +28,7 @@ typedef void(^reqResultBlock) (BOOL result,id backData);
         self.tableView.mj_header = nil;
         self.tableView.mj_footer = nil;
         self.tableView.zxDatas = [self.dataSource mutableCopy];
+        //[self.tableView initDatasWithRowCount:20];
     }else{
         //分页模式
         //MJRefresh相关封装

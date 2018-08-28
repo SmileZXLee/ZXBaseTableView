@@ -24,6 +24,7 @@
 -(NSMutableArray *)getAllPropertyNames{
     NSMutableArray *propertyNamesArr = [NSMutableArray array];
     propertyNamesArr = [self getPropertyNames];
+    if([self isSysClass])return propertyNamesArr;
     Class class = self.superclass;
     while (true) {
         if(![class isSysClass]){

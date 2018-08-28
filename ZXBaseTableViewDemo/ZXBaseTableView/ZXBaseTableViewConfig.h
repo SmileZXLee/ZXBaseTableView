@@ -15,10 +15,12 @@
 #define REAL_HEIGHT (IS_IPHONE_X ? 10 : 20)
 #define KSCREENWIDTH [UIScreen mainScreen].bounds.size.width
 #define kSCREENHEIGHT ([UIScreen mainScreen].bounds.size.height - APP_STATUSBAR_HEIGHT + REAL_HEIGHT)
-
+///model默认去匹配的cell高度属性名 若不存在则动态生成cellHRunTime的属性名
 static NSString *const CELLH = @"cellH";
+///cell会自动赋值包含“model”的属性
 static NSString *const DATAMODEL = @"model";
-
+///若ZXBaseTableView无法自动获取cell高度（zxdata有值即可），且用户未自定义高度，则使用默认高度
+static CGFloat const CELLDEFAULTH = 44;
 ///分页数量
 static NSUInteger const PAGECOUNT = 10;
 

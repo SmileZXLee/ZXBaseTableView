@@ -39,7 +39,9 @@
 
 -(void)setModel:(TestModel *)model{
     _model = model;
-    self.msgLabel.text = model.msg;
+    if([model isKindOfClass:[TestModel class]]){
+        self.msgLabel.text = model.msg;
+    }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

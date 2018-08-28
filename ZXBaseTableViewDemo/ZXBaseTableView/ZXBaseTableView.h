@@ -30,6 +30,10 @@ typedef void(^footerBlock) (void);
 #pragma mark - 数据设置
 ///设置所有数据数组
 @property(nonatomic, strong)NSMutableArray *zxDatas;
+///传入sectionCount和rowCount来初始化数组 若调用此方法无需赋值zxDatas
+-(void)initDatasWithSectionCount:(NSUInteger)secCount rowCount:(NSUInteger)rowCount;
+///传入rowCount来初始化数组 若调用此方法无需赋值zxDatas
+-(void)initDatasWithRowCount:(NSUInteger)rowCount;
 ///设置对应cell的类
 @property (nonatomic, copy) Class (^cellClassAtIndexPath)(NSIndexPath *indexPath);
 ///设置对应cell的高度(非必须，若设置了，则内部的自动计算高度无效)

@@ -76,6 +76,27 @@
      */
      
 }
+-(void)initDatasWithSectionCount:(NSUInteger)secCount rowCount:(NSUInteger)rowCount{
+    NSMutableArray *datasArr = [NSMutableArray array];
+    for(NSUInteger i = 0; i < secCount;i++){
+        NSMutableArray *secArr = [NSMutableArray array];
+        for(NSUInteger j = 0; j < secCount;j++){
+            NSObject *model = [[NSObject alloc]init];
+            [secArr addObject:model];
+        }
+        [datasArr addObject:secArr];
+    }
+    self.zxDatas = datasArr;
+}
+
+-(void)initDatasWithRowCount:(NSUInteger)rowCount{
+    NSMutableArray *datasArr = [NSMutableArray array];
+    for(NSUInteger i = 0; i < rowCount;i++){
+        NSObject *model = [[NSObject alloc]init];
+        [datasArr addObject:model];
+    }
+    self.zxDatas = datasArr;
+}
 -(void)setDisableAutomaticDimension:(BOOL)disableAutomaticDimension{
     _disableAutomaticDimension = disableAutomaticDimension;
     if(disableAutomaticDimension){
@@ -111,22 +132,24 @@
                 }
             }
         }
-        CGFloat cellH = ((UITableViewCell *)cell).frame.size.height;
-        if(cellH && ![[model safeValueForKeyPath:CELLH] floatValue]){
-            if([[model getAllPropertyNames]containsObject:CELLH]){
-                [model safeSetValue:[NSNumber numberWithFloat:cellH] forKeyPath:CELLH];
-            }else{
-                [model setCellHRunTime:[NSNumber numberWithFloat:cellH]];
+        if(model){
+            CGFloat cellH = ((UITableViewCell *)cell).frame.size.height;
+            if(cellH && ![[model safeValueForKeyPath:CELLH] floatValue]){
+                if([[model getAllPropertyNames]containsObject:CELLH]){
+                    [model safeSetValue:[NSNumber numberWithFloat:cellH] forKeyPath:CELLH];
+                }else{
+                    [model setCellHRunTime:[NSNumber numberWithFloat:cellH]];
+                }
+                
             }
-            
-        }
-        NSArray *proNames = [cell getAllPropertyNames];
-        BOOL cellContainsModel = NO;
-        for (NSString *proStr in proNames) {
-            if([proStr.uppercaseString containsString:DATAMODEL.uppercaseString]){
-                [cell safeSetValue:model forKeyPath:proStr];
-                cellContainsModel = YES;
-                break;
+            NSArray *proNames = [cell getAllPropertyNames];
+            BOOL cellContainsModel = NO;
+            for (NSString *proStr in proNames) {
+                if([proStr.uppercaseString containsString:DATAMODEL.uppercaseString]){
+                    [cell safeSetValue:model forKeyPath:proStr];
+                    cellContainsModel = YES;
+                    break;
+                }
             }
         }
         /*
@@ -209,12 +232,17 @@
             return self.cellHAtIndexPath(indexPath);
         }else{
             id model = [self getModelAtIndexPath:indexPath];
-            CGFloat cellH = [[model safeValueForKeyPath:CELLH] floatValue];
-            if(cellH){
-               return cellH;
-            }else{
-                return [[model cellHRunTime] floatValue];
-            }
+                if(model){
+                    CGFloat cellH = [[model safeValueForKeyPath:CELLH] floatValue];
+                    if(cellH){
+                       return cellH;
+                    }else{
+                        return [[model cellHRunTime] floatValue];
+                    }
+                }
+                else{
+                    return CELLDEFAULTH;
+                }
         }
         
     }
@@ -331,12 +359,18 @@
 }
 #pragma mark 获取对应indexPath的model
 -(instancetype)getModelAtIndexPath:(NSIndexPath *)indexPath{
-    id model;
+    id model = nil;;
     if([self isMultiDatas]){
-        NSArray *sectionArr = self.zxDatas[indexPath.section];
-        model = sectionArr[indexPath.row];
+        if(indexPath.section < self.zxDatas.count){
+            NSArray *sectionArr = self.zxDatas[indexPath.section];
+            if(indexPath.row < sectionArr.count){
+                model = sectionArr[indexPath.row];
+            }
+        }
     }else{
-        model = self.zxDatas[indexPath.row];
+        if(indexPath.row < self.zxDatas.count){
+            model = self.zxDatas[indexPath.row];
+        }
     }
     return model;
 }
