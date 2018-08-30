@@ -109,11 +109,16 @@ typedef void(^reqResultBlock) (BOOL result,id backData);
     };
      */
     
-    //设置HeaderView
+    //声明HeaderView
     tableView.headerClassInSection = ^Class(NSInteger section) {
         return [TestHeaderView class];
     };
-    
+    //获取HeaderView 可以做一些赋值操作
+    tableView.headerViewInSection = ^(NSUInteger section, UIView *headerView,  NSMutableArray *secArr) {
+        if(section == 1){
+            headerView.backgroundColor = [UIColor redColor];
+        }
+    };
     //设置FooterView
     tableView.viewForFooterInSection = ^UIView *(NSInteger section) {
         UILabel *footerLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, KSCREENWIDTH, 40)];

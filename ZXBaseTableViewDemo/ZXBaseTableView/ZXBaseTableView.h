@@ -50,9 +50,9 @@ typedef void(^footerBlock) (void);
 @property (nonatomic, copy) CGFloat (^heightForHeaderInSection)(NSInteger section);
 ///设置FooterView高度(非必须)
 @property (nonatomic, copy) CGFloat (^heightForFooterInSection)(NSInteger section);
-///设置HeaderView(包含声明View和设置高度,写了此方法则viewForHeaderInSection和heightForHeaderInSection无效)(非必须)
+///设置HeaderView(包含声明View和设置高度,写了此方法则viewForHeaderInSection无效，若写了heightForHeaderInSection则自动高度无效)(非必须)
 @property (nonatomic, copy) Class (^headerClassInSection)(NSInteger section);
-///设置FooterView(包含声明View和设置高度,写了此方法则viewForFooterInSection和heightForFooterInSection无效)(非必须)
+///设置FooterView(包含声明View和设置高度,写了此方法则viewForFooterInSection无效若写了heightForFooterInSection则自动高度无效)(非必须)
 @property (nonatomic, copy) Class (^footerClassInSection)(NSInteger section);
 ///禁止系统Cell自动高度 可以有效解决tableView跳动问题
 @property(nonatomic, assign)BOOL disableAutomaticDimension;
@@ -64,6 +64,10 @@ typedef void(^footerBlock) (void);
 @property (nonatomic, copy) void (^didDeselectedAtIndexPath)(NSIndexPath *indexPath,id model,UITableViewCell *cell);
 ///获取对应行的cell和model
 @property (nonatomic, copy) void (^cellAtIndexPath)(NSIndexPath *indexPath,UITableViewCell *cell,id model);
+///获取对应section的headerView secArr为对应section的model数组
+@property (nonatomic, copy) void (^headerViewInSection)(NSUInteger section,UIView *headerView,NSMutableArray *secArr);
+///获取对应section的footerView secArr为对应section的model数组
+@property (nonatomic, copy) void (^footerViewInSection)(NSUInteger section,UIView *footerView,NSMutableArray *secArr);
 ///cell将要展示
 @property (nonatomic, copy) void (^willDisplayCell)(NSIndexPath *indexPath,UITableViewCell *cell);
 

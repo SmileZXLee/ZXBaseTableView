@@ -253,38 +253,42 @@
 }
 #pragma mark tableView HeaderView & FooterView
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *headerView = nil;
     if([self.zxDelegate respondsToSelector:@selector(tableView:viewForHeaderInSection:)]){
-        return [self.zxDelegate tableView:tableView viewForHeaderInSection:section];
+        headerView = [self.zxDelegate tableView:tableView viewForHeaderInSection:section];
         
     }else{
         if(self.headerClassInSection){
-            UIView *headerView = [self getHeaderViewInSection:section];
-            return headerView;
+            headerView = [self getHeaderViewInSection:section];
+            
         }else{
             if(self.viewForHeaderInSection){
-                return self.viewForHeaderInSection(section);
-            }else{
-                return nil;
+                headerView = self.viewForHeaderInSection(section);
             }
         }
     }
+    NSMutableArray *secArr = self.zxDatas[section];
+    !self.headerViewInSection ? : self.headerViewInSection(section,headerView,secArr);
+    return headerView;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView *footerView = nil;
     if([self.zxDelegate respondsToSelector:@selector(tableView:viewForFooterInSection:)]){
-        return [self.zxDelegate tableView:tableView viewForFooterInSection:section];
+        footerView = [self.zxDelegate tableView:tableView viewForFooterInSection:section];
         
     }else{
         if(self.footerClassInSection){
-            UIView *footerView = [self getFooterViewInSection:section];
-            return footerView;
+            footerView = [self getFooterViewInSection:section];
+            
         }else{
             if(self.viewForFooterInSection){
-                return self.viewForFooterInSection(section);
-            }else{
-                return nil;
+                footerView = self.viewForFooterInSection(section);
             }
         }
     }
+    NSMutableArray *secArr = self.zxDatas[section];
+    !self.footerViewInSection ? : self.footerViewInSection(section,footerView,secArr);
+    return footerView;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if([self.zxDelegate respondsToSelector:@selector(tableView:heightForHeaderInSection:)]){
