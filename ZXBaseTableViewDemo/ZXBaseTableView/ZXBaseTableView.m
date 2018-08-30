@@ -292,8 +292,12 @@
         
     }else{
         if(self.headerClassInSection){
-            UIView *headerView = [self getHeaderViewInSection:section];
-            return headerView.frame.size.height;
+            if(self.heightForHeaderInSection){
+                return self.heightForHeaderInSection(section);
+            }else{
+                UIView *headerView = [self getHeaderViewInSection:section];
+                return headerView.frame.size.height;
+            }
         }else{
             if(self.heightForHeaderInSection){
                 return self.heightForHeaderInSection(section);
@@ -309,8 +313,12 @@
         
     }else{
         if(self.footerClassInSection){
-            UIView *footerView = [self getHeaderViewInSection:section];
-            return footerView.frame.size.height;
+            if(self.heightForHeaderInSection){
+                return self.heightForHeaderInSection(section);
+            }else{
+                UIView *footerView = [self getHeaderViewInSection:section];
+                return footerView.frame.size.height;
+            }
         }else{
             if(self.heightForFooterInSection){
                 return self.heightForFooterInSection(section);
