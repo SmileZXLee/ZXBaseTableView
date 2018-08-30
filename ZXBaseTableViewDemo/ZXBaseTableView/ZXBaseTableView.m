@@ -317,10 +317,10 @@
         
     }else{
         if(self.footerClassInSection){
-            if(self.heightForHeaderInSection){
-                return self.heightForHeaderInSection(section);
+            if(self.heightForFooterInSection){
+                return self.heightForFooterInSection(section);
             }else{
-                UIView *footerView = [self getHeaderViewInSection:section];
+                UIView *footerView = [self getFooterViewInSection:section];
                 return footerView.frame.size.height;
             }
         }else{
