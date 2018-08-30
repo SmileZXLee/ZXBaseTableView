@@ -36,21 +36,10 @@
         }
     };
     */
+    
     //设置HeaderView
-    tableView.viewForHeaderInSection = ^UIView *(NSInteger section) {
-        UILabel *headerLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, KSCREENWIDTH, 40)];
-        headerLabel.textAlignment = NSTextAlignmentCenter;
-        headerLabel.text = @"headerLabel";
-        headerLabel.backgroundColor = [UIColor blackColor];
-        headerLabel.textColor = [UIColor whiteColor];
-        return headerLabel;
-    };
-    tableView.heightForHeaderInSection = ^CGFloat(NSInteger section) {
-        if(section == 1){
-            return 40;
-        }else{
-            return 0.01;
-        }
+    tableView.headerClassInSection = ^Class(NSInteger section) {
+        return [TestHeaderView class];
     };
     
     tableView.viewForFooterInSection = ^UIView *(NSInteger section) {
