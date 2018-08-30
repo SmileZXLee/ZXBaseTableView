@@ -257,10 +257,15 @@
         return [self.zxDelegate tableView:tableView viewForHeaderInSection:section];
         
     }else{
-        if(self.viewForHeaderInSection){
-            return self.viewForHeaderInSection(section);
+        if(self.headerClassInSection){
+            UIView *headerView = [self getHeaderViewInSection:section];
+            return headerView;
         }else{
-            return nil;
+            if(self.viewForHeaderInSection){
+                return self.viewForHeaderInSection(section);
+            }else{
+                return nil;
+            }
         }
     }
 }
@@ -269,10 +274,15 @@
         return [self.zxDelegate tableView:tableView viewForFooterInSection:section];
         
     }else{
-        if(self.viewForFooterInSection){
-            return self.viewForFooterInSection(section);
+        if(self.footerClassInSection){
+            UIView *footerView = [self getFooterViewInSection:section];
+            return footerView;
         }else{
-            return nil;
+            if(self.viewForFooterInSection){
+                return self.viewForFooterInSection(section);
+            }else{
+                return nil;
+            }
         }
     }
 }
@@ -281,10 +291,15 @@
         return [self.zxDelegate tableView:tableView heightForHeaderInSection:section];
         
     }else{
-        if(self.heightForHeaderInSection){
-            return self.heightForHeaderInSection(section);
+        if(self.headerClassInSection){
+            UIView *headerView = [self getHeaderViewInSection:section];
+            return headerView.frame.size.height;
         }else{
-            return CGFLOAT_MIN;
+            if(self.heightForHeaderInSection){
+                return self.heightForHeaderInSection(section);
+            }else{
+                return CGFLOAT_MIN;
+            }
         }
     }
 }
@@ -293,10 +308,15 @@
         return [self.zxDelegate tableView:tableView heightForFooterInSection:section];
         
     }else{
-        if(self.heightForFooterInSection){
-            return self.heightForFooterInSection(section);
+        if(self.footerClassInSection){
+            UIView *footerView = [self getHeaderViewInSection:section];
+            return footerView.frame.size.height;
         }else{
-            return CGFLOAT_MIN;
+            if(self.heightForFooterInSection){
+                return self.heightForFooterInSection(section);
+            }else{
+                return CGFLOAT_MIN;
+            }
         }
     }
 }
@@ -373,6 +393,30 @@
         }
     }
     return model;
+}
+#pragma mark 根据section获取headerView
+-(UIView *)getHeaderViewInSection:(NSUInteger)section{
+    Class headerClass = self.headerClassInSection(section);
+    BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/%@.nib",[[NSBundle mainBundle]resourcePath],headerClass]];
+    UIView *headerView = nil;
+    if(isExist){
+        headerView = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass(headerClass) owner:nil options:nil]lastObject];
+    }else{
+        headerView = [[headerClass alloc]init];
+    }
+    return headerView;
+}
+#pragma mark 根据section获取footerView
+-(UIView *)getFooterViewInSection:(NSUInteger)section{
+    Class footerClass = self.footerClassInSection(section);
+    BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@/%@.nib",[[NSBundle mainBundle]resourcePath],footerClass]];
+    UIView *footerView = nil;
+    if(isExist){
+        footerView = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass(footerClass) owner:nil options:nil]lastObject];
+    }else{
+        footerView = [[footerClass alloc]init];
+    }
+    return footerView;
 }
 #pragma mark 暂无数据 & 网络错误相关
 -(void)showNoMoreDataWithStates:(PlaceImgState)state errorDic:(NSDictionary *)errorDic backSel:(SEL)backSel{

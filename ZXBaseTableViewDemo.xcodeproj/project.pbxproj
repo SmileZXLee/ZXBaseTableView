@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		744215F42137B2F60037AA19 /* TestHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 744215F32137B2F60037AA19 /* TestHeaderView.m */; };
+		744215F62137B30F0037AA19 /* TestHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 744215F52137B30F0037AA19 /* TestHeaderView.xib */; };
 		74486AAB2134516D002105BA /* NSObject+Property.m in Sources */ = {isa = PBXBuildFile; fileRef = 74486AAA2134516C002105BA /* NSObject+Property.m */; };
 		74592F72212E631600690410 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 74592F41212E631600690410 /* LICENSE */; };
 		74592F73212E631600690410 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 74592F43212E631600690410 /* UIScrollView+MJRefresh.m */; };
@@ -70,6 +72,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		744215F22137B2F60037AA19 /* TestHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestHeaderView.h; sourceTree = "<group>"; };
+		744215F32137B2F60037AA19 /* TestHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestHeaderView.m; sourceTree = "<group>"; };
+		744215F52137B30F0037AA19 /* TestHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestHeaderView.xib; sourceTree = "<group>"; };
 		74486AA92134516C002105BA /* NSObject+Property.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Property.h"; sourceTree = "<group>"; };
 		74486AAA2134516C002105BA /* NSObject+Property.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Property.m"; sourceTree = "<group>"; };
 		74592F41212E631600690410 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -399,6 +404,9 @@
 				74F9B67B212AF64C007D3BBA /* CustomTestCell.m */,
 				74F9B67D212AFAC0007D3BBA /* TestModel.h */,
 				74F9B67E212AFAC0007D3BBA /* TestModel.m */,
+				744215F22137B2F60037AA19 /* TestHeaderView.h */,
+				744215F32137B2F60037AA19 /* TestHeaderView.m */,
+				744215F52137B30F0037AA19 /* TestHeaderView.xib */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -516,6 +524,7 @@
 				74F9B63D212A77B5007D3BBA /* Main.storyboard in Resources */,
 				74F9B679212AF4DE007D3BBA /* XibTestCell.xib in Resources */,
 				74592F72212E631600690410 /* LICENSE in Resources */,
+				744215F62137B30F0037AA19 /* TestHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,6 +561,7 @@
 				74592F76212E631600690410 /* UIScrollView+MJExtension.m in Sources */,
 				74F9B66B212A8167007D3BBA /* ZXBaseTableView.m in Sources */,
 				74592F81212E631600690410 /* MJRefreshGifHeader.m in Sources */,
+				744215F42137B2F60037AA19 /* TestHeaderView.m in Sources */,
 				74592F7F212E631600690410 /* MJRefreshNormalHeader.m in Sources */,
 				74F9B67C212AF64C007D3BBA /* CustomTestCell.m in Sources */,
 				74F9B63A212A77B5007D3BBA /* ViewController.m in Sources */,

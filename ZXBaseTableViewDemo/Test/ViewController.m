@@ -10,6 +10,7 @@
 
 #import "XibTestCell.h"
 #import "CustomTestCell.h"
+#import "TestHeaderView.h"
 #import "TestModel.h"
 
 #import "MJRefresh.h"
@@ -88,6 +89,7 @@ typedef void(^reqResultBlock) (BOOL result,id backData);
         }
     };
     */
+    /*
     //设置HeaderView
     tableView.viewForHeaderInSection = ^UIView *(NSInteger section) {
         UILabel *headerLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, KSCREENWIDTH, 40)];
@@ -105,6 +107,13 @@ typedef void(^reqResultBlock) (BOOL result,id backData);
             return 0.01;
         }
     };
+     */
+    
+    //设置HeaderView
+    tableView.headerClassInSection = ^Class(NSInteger section) {
+        return [TestHeaderView class];
+    };
+    
     //设置FooterView
     tableView.viewForFooterInSection = ^UIView *(NSInteger section) {
         UILabel *footerLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, KSCREENWIDTH, 40)];

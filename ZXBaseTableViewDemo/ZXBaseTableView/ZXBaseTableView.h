@@ -50,6 +50,10 @@ typedef void(^footerBlock) (void);
 @property (nonatomic, copy) CGFloat (^heightForHeaderInSection)(NSInteger section);
 ///设置FooterView高度(非必须)
 @property (nonatomic, copy) CGFloat (^heightForFooterInSection)(NSInteger section);
+///设置HeaderView(包含声明View和设置高度,写了此方法则viewForHeaderInSection和heightForHeaderInSection无效)(非必须)
+@property (nonatomic, copy) Class (^headerClassInSection)(NSInteger section);
+///设置FooterView(包含声明View和设置高度,写了此方法则viewForFooterInSection和heightForFooterInSection无效)(非必须)
+@property (nonatomic, copy) Class (^footerClassInSection)(NSInteger section);
 ///禁止系统Cell自动高度 可以有效解决tableView跳动问题
 @property(nonatomic, assign)BOOL disableAutomaticDimension;
 
@@ -111,3 +115,4 @@ typedef void(^footerBlock) (void);
 -(void)updateTabViewStatus:(BOOL)status errDic:(NSDictionary *_Nullable)errDic backSel:(SEL _Nullable )backSel;
 
 @end
+
