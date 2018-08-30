@@ -36,12 +36,13 @@
         }
     };
     */
-    
+
     //设置HeaderView
     tableView.headerClassInSection = ^Class(NSInteger section) {
         return [TestHeaderView class];
     };
-    
+
+    //设置FooterView
     tableView.viewForFooterInSection = ^UIView *(NSInteger section) {
         UILabel *footerLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, KSCREENWIDTH, 40)];
         footerLabel.textAlignment = NSTextAlignmentCenter;
