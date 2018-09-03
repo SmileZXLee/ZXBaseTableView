@@ -267,9 +267,13 @@
             }
         }
     }
-    NSMutableArray *secArr = self.zxDatas[section];
-    !self.headerViewInSection ? : self.headerViewInSection(section,headerView,secArr);
-    return headerView;
+    if(section < self.zxDatas.count){
+        NSMutableArray *secArr = self.zxDatas[section];
+        !self.headerViewInSection ? : self.headerViewInSection(section,headerView,secArr);
+        return headerView;
+    }else{
+        return nil;
+    }
 }
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView *footerView = nil;
@@ -286,9 +290,13 @@
             }
         }
     }
-    NSMutableArray *secArr = self.zxDatas[section];
-    !self.footerViewInSection ? : self.footerViewInSection(section,footerView,secArr);
-    return footerView;
+    if(section < self.zxDatas.count){
+        NSMutableArray *secArr = self.zxDatas[section];
+        !self.footerViewInSection ? : self.footerViewInSection(section,footerView,secArr);
+        return footerView;
+    }else{
+        return nil;
+    }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if([self.zxDelegate respondsToSelector:@selector(tableView:heightForHeaderInSection:)]){
@@ -299,8 +307,12 @@
             if(self.heightForHeaderInSection){
                 return self.heightForHeaderInSection(section);
             }else{
-                UIView *headerView = [self getHeaderViewInSection:section];
-                return headerView.frame.size.height;
+                if(section < self.zxDatas.count){
+                    UIView *headerView = [self getHeaderViewInSection:section];
+                    return headerView.frame.size.height;
+                }else{
+                    return CGFLOAT_MIN;
+                }
             }
         }else{
             if(self.heightForHeaderInSection){
@@ -320,8 +332,13 @@
             if(self.heightForFooterInSection){
                 return self.heightForFooterInSection(section);
             }else{
-                UIView *footerView = [self getFooterViewInSection:section];
-                return footerView.frame.size.height;
+                if(section < self.zxDatas.count){
+                    UIView *footerView = [self getFooterViewInSection:section];
+                    return footerView.frame.size.height;
+                }else{
+                    return CGFLOAT_MIN;
+                }
+                
             }
         }else{
             if(self.heightForFooterInSection){
