@@ -73,14 +73,14 @@
     if([[self getPropertyNames] containsObject:key]){
         return [self valueForKey:key];
     }else{
-        return nil;
+        return @"";
     }
 }
 -(instancetype)safeValueForKeyPath:(NSString *)key{
     if([[self getAllPropertyNames] containsObject:key]){
         return [self valueForKeyPath:key];
     }else{
-        return nil;
+        return @"";
     }
 }
 -(BOOL)superclassIsSysClass{
