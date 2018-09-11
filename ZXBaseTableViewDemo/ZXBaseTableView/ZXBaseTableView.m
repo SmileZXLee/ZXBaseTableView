@@ -133,6 +133,7 @@
             }
         }
         if(model){
+            [model safeSetValue:indexPath forKeyPath:INDEX];
             CGFloat cellH = ((UITableViewCell *)cell).frame.size.height;
             if(cellH && ![[model safeValueForKeyPath:CELLH] floatValue]){
                 if([[model getAllPropertyNames]containsObject:CELLH]){

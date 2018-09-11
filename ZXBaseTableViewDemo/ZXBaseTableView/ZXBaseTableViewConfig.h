@@ -19,6 +19,8 @@
 static NSString *const CELLH = @"cellH";
 ///cell会自动赋值包含“model”的属性
 static NSString *const DATAMODEL = @"model";
+///model的index属性，存储当前model所属的indexPath
+static NSString *const INDEX = @"index";
 ///若ZXBaseTableView无法自动获取cell高度（zxdata有值即可），且用户未自定义高度，则使用默认高度
 static CGFloat const CELLDEFAULTH = 44;
 ///分页数量
