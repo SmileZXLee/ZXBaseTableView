@@ -222,8 +222,7 @@
 }
 #pragma mark tableView cell高度
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([self.zxDelegate respondsToSelector:@selector(tableView:estimatedHeightForRowAtIndexPath:)]
-        || self.estimatedRowHeight > 0) {
+    if ([self.zxDelegate respondsToSelector:@selector(tableView:estimatedHeightForRowAtIndexPath:)]) {
         return UITableViewAutomaticDimension;
     }
     if([self.zxDelegate respondsToSelector:@selector(tableView:heightForRowAtIndexPath:)]){
