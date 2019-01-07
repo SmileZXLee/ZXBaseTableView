@@ -267,13 +267,8 @@
             }
         }
     }
-    if(section < self.zxDatas.count){
-        NSMutableArray *secArr = self.zxDatas[section];
-        !self.headerViewInSection ? : self.headerViewInSection(section,headerView,secArr);
-        return headerView;
-    }else{
-        return nil;
-    }
+    !self.headerViewInSection ? : self.headerViewInSection(section,headerView,secArr);
+    return headerView;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView *footerView = nil;
@@ -290,13 +285,8 @@
             }
         }
     }
-    if(section < self.zxDatas.count){
-        NSMutableArray *secArr = self.zxDatas[section];
-        !self.footerViewInSection ? : self.footerViewInSection(section,footerView,secArr);
-        return footerView;
-    }else{
-        return nil;
-    }
+    !self.footerViewInSection ? : self.footerViewInSection(section,footerView,secArr);
+    return footerView;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if([self.zxDelegate respondsToSelector:@selector(tableView:heightForHeaderInSection:)]){
