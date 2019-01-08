@@ -56,12 +56,15 @@ typedef void(^footerBlock) (void);
 @property (nonatomic, copy) Class (^footerClassInSection)(NSInteger section);
 ///禁止系统Cell自动高度 可以有效解决tableView跳动问题
 @property(nonatomic, assign)BOOL disableAutomaticDimension;
-
+///无数据是否显示header，默认为NO
+@property(nonatomic, assign)BOOL showHeaderWhenNoMsg;
 #pragma mark - 数据获取
 ///获取选中某一行
 @property (nonatomic, copy) void (^didSelectedAtIndexPath)(NSIndexPath *indexPath,id model,UITableViewCell *cell);
 ///获取取消选中某一行
 @property (nonatomic, copy) void (^didDeselectedAtIndexPath)(NSIndexPath *indexPath,id model,UITableViewCell *cell);
+///滑动删除
+@property (nonatomic, copy) NSArray<UITableViewRowAction *>* (^editActionsForRowAtIndexPath)(NSIndexPath *indexPath);
 ///获取对应行的cell和model
 @property (nonatomic, copy) void (^cellAtIndexPath)(NSIndexPath *indexPath,UITableViewCell *cell,id model);
 ///获取对应section的headerView secArr为对应section的model数组

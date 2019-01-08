@@ -29,6 +29,15 @@ typedef void(^reqResultBlock) (BOOL result,id backData);
         self.tableView.mj_header = nil;
         self.tableView.mj_footer = nil;
         self.tableView.zxDatas = [self.dataSource mutableCopy];
+        //滑动删除
+        self.tableView.editActionsForRowAtIndexPath = ^NSArray<UITableViewRowAction *> *(NSIndexPath *indexPath) {
+            if(indexPath.row == self.dataSource.count)return nil;
+            __weak typeof(self) weakSelf = self;
+            UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+                //不处理
+            }];
+            return @[deleteAction];
+        };
         //[self.tableView initDatasWithRowCount:20];
     }else{
         //分页模式

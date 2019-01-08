@@ -220,6 +220,18 @@
         !self.didDeselectedAtIndexPath ? : self.didDeselectedAtIndexPath(indexPath,model,cell);
     }
 }
+#pragma mark tableView 滑动删除
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(self.editActionsForRowAtIndexPath){
+        return self.editActionsForRowAtIndexPath(indexPath);
+    }else{
+        return nil;
+    }
+}
+#pragma mark tableView 是否可以编辑
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return self.editActionsForRowAtIndexPath ? YES : NO;
+}
 #pragma mark tableView cell高度
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([self.zxDelegate respondsToSelector:@selector(tableView:estimatedHeightForRowAtIndexPath:)]) {
@@ -267,8 +279,9 @@
             }
         }
     }
+    NSMutableArray *secArr = self.zxDatas.count ? [self isMultiDatas] ? self.zxDatas[section] : self.zxDatas : nil;
     !self.headerViewInSection ? : self.headerViewInSection(section,headerView,secArr);
-    return headerView;
+    return !secArr.count ? self.showHeaderWhenNoMsg ? headerView : nil : headerView;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView *footerView = nil;
@@ -285,6 +298,7 @@
             }
         }
     }
+    NSMutableArray *secArr = self.zxDatas.count ? [self isMultiDatas] ? self.zxDatas[section] : self.zxDatas : nil;
     !self.footerViewInSection ? : self.footerViewInSection(section,footerView,secArr);
     return footerView;
 }
