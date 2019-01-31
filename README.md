@@ -1,5 +1,5 @@
 # ZXBaseTableView
-· 基于系统UITableView的封装，简易的代码风格，无需设置代理和数据源。
+· 基于系统UITableView的封装，简易的代码风格，无需设置代理和数据源。\n
 · 实现一个普通的tableView仅需声明cell类名，headerView类名，footerView类名，赋值tableView数据数组，在cell类中重写model的set方法即可，无需处理cell等视图高度，数组多section亦会自动处理，cell点击等事件采取block方式导出，并可以直接获取对应indexPath的model等信息，大大缩减代码量，减少重复的冗余代码。
 ·包含分页封装，无需处理分页逻辑，自动显示网络错误占位图，无数据占位图，网络错误点击重新加载等附加功能。
 、、、  
@@ -76,5 +76,5 @@
     tableView.zxDataSource = self;
     tableView.zxDelegate = self;
      */
- 
  、、、
+ 
