@@ -150,7 +150,7 @@ tableView.scrollViewDidScroll = ^(UIScrollView *scrollView) {
 //其他见ZXBaseTableView.h声明
 ```
 
-## tableView分页相关
+## ZXBaseTableView分页相关
 大量减少重复的判断代码，控制中无需定义pageNo和pageCount，仅需将请求的结果传给ZXBaseTableView即可。  
 [MJRefresh](https://github.com/CoderMJLee/MJRefresh) 是当前使用最为广泛的下拉刷新框架，ZXBaseTableView的分页模块基于此进行了一些处理，对暂无更多数据等footerView显示状态内部自动判断。再次表达对MJ老师的崇敬之情。
 
