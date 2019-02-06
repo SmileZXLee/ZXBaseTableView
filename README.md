@@ -52,14 +52,14 @@ tableView.headerViewInSection = ^(NSUInteger section, UIView *headerView,  NSMut
 然后重写model的set方法即可：  
 
 ```
--(void)setTestModel:(XibTestModel *)testModel{
+-(void)setXibTestModel:(XibTestModel *)testModel{
     _testModel = testModel;
     //在这里做数据赋值操作
     
 }
 ```
 
-* 之后，我们可能需要获取tableView的对应cell的点击事件，并进行相应处理  
+* 之后，我们可能需要获取tableView中对应cell的点击事件，并进行相应处理  
 ```
 //选中某一indexPath
 tableView.didSelectedAtIndexPath = ^(NSIndexPath *indexPath,id model,UITableViewCell *cell) {
