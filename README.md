@@ -81,7 +81,7 @@ tableView.cellAtIndexPath = ^(NSIndexPath *indexPath, UITableViewCell *cell, id 
     }
 };
 ```
-* 手动设置cell高度(cell动态高度时候常用，若cell高度不变，则无需设置)
+* 手动设置cell高度
 ```
 tableView.cellHAtIndexPath = ^CGFloat(NSIndexPath *indexPath) {
     if(indexPath.row == 0){
@@ -90,6 +90,18 @@ tableView.cellHAtIndexPath = ^CGFloat(NSIndexPath *indexPath) {
         return 60;
     }
 };
+```
+* 根据文字内容自动设置cell高度
+```
+//通常做法是在cell对应的model中定义一个用于存储cell高度的属性，重写cell中变化的文字内容的set方法，并且在set方法中将计算的高度结果赋值给cell高度的属性，ZXBaseTableView会为每个cell的对应model中动态添加一个名为cellH的属性，若用户手动创建了这个同名属性，则使用用户创建的cellH的值作为cell的高度，以下举例说明：
+//假设cell对应的model中有一个comment属性，用于存储用户评论cell的评论内容，需要根据评论内容长度自动调整cell高度，则您只需要在model的.m文件中，写下如下代码即可，getRectHeightWithLimitH为自定义的计算文字高度的函数，需替换为自己的高度计算函数：
+-(void)setComment:(NSString *)comment{
+    _comment = comment;
+    self.cellH = [comment getRectHeightWithLimitH:kScreenWidth - 10 * 2 fontSize:13];
+}
+//您需要model的在.h或.m中声明一下以下属性：
+@property (nonatomic,assign) CGFloat cellH;
+//大功告成！！
 ```
 * 创建headerView或footerView对象并设置为对应的headerView或footerView（不常用，一般直接返回对应对象名即可，ZXBaseTableView会自动创建并设置高度）
 ```
