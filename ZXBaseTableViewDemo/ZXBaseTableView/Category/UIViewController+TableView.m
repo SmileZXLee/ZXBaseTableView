@@ -11,12 +11,15 @@
 -(ZXBaseTableView *)creatTableViewWithStyle:(UITableViewStyle)style{
     CGFloat tabViewH = IS_IPHONE_X ? kSCREENHEIGHT - kNavi_Height + 34 : kSCREENHEIGHT - kNavi_Height;
     CGRect frame = CGRectMake(0, 0, KSCREENWIDTH, tabViewH);
+    return [self creatTableViewWithStyle:style frame:frame];
+}
+-(ZXBaseTableView *)creatTableView{
+    return [self creatTableViewWithStyle:UITableViewStylePlain];
+}
+-(ZXBaseTableView *)creatTableViewWithStyle:(UITableViewStyle)style frame:(CGRect)frame{
     ZXBaseTableView *tableView = [[ZXBaseTableView alloc]initWithFrame:frame style:style];
     tableView.frame = frame;
     [self.view addSubview:tableView];
     return tableView;
-}
--(ZXBaseTableView *)creatTableView{
-    return [self creatTableViewWithStyle:UITableViewStylePlain];
 }
 @end
