@@ -13,4 +13,6 @@
 -(ZXBaseTableView *)creatTableView;
 ///创建ZXBaseTableView并设置style
 -(ZXBaseTableView *)creatTableViewWithStyle:(UITableViewStyle)style;
+///创建ZXBaseTableView并设置style和frame
+-(ZXBaseTableView *)creatTableViewWithStyle:(UITableViewStyle)style frame:(CGRect)frame;
 @end
