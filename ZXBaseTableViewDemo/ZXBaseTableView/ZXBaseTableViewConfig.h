@@ -8,7 +8,19 @@
 
 #ifndef ZXBaseTableViewConfig_h
 #define ZXBaseTableViewConfig_h
-#define IS_IPHONE_X (([[UIScreen mainScreen] bounds].size.height - 812)?NO:YES)
+#define IS_IPHONE_X ({\
+int cFlag = 0;\
+if (@available(iOS 11.0, *)) {\
+if (!UIEdgeInsetsEqualToEdgeInsets([UIApplication sharedApplication].delegate.window.safeAreaInsets, UIEdgeInsetsZero)) {\
+cFlag = 1;\
+}else{\
+cFlag = 0;\
+}\
+}else{\
+cFlag = 0;\
+}\
+cFlag;\
+})
 #define SYS_STATUSBAR_HEIGHT (IS_IPHONE_X ? 44 : 20)
 #define APP_STATUSBAR_HEIGHT (CGRectGetHeight([UIApplication sharedApplication].statusBarFrame))
 #define kNavi_Height (44 + SYS_STATUSBAR_HEIGHT)
