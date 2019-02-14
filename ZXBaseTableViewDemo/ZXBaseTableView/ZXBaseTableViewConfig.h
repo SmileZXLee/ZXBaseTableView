@@ -11,7 +11,7 @@
 #define IS_IPHONE_X ({\
 int cFlag = 0;\
 if (@available(iOS 11.0, *)) {\
-if (!UIEdgeInsetsEqualToEdgeInsets([UIApplication sharedApplication].delegate.window.safeAreaInsets, UIEdgeInsetsZero)) {\
+if ([UIApplication sharedApplication].delegate.window.safeAreaInsets.top == 44) {\
 cFlag = 1;\
 }else{\
 cFlag = 0;\
