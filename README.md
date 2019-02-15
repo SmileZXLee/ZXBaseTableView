@@ -8,7 +8,7 @@
 ZXBaseTableView *tableView = [self creatTableView];
 ```
 
-* 设置tableView中显示的数据的数组，和往常的设置数据源习惯一样，无需任何额外处理。
+* 设置tableView中显示的数据的数组，和往常的设置数据源习惯一样，无需任何额外处理，self.dataArr中存放model数组（NSString之类的系统对象也可以），多级数组嵌套即为多section的情况。
 
 ```
 tableView.zxDatas = self.dataArr;
@@ -81,7 +81,7 @@ tableView.cellAtIndexPath = ^(NSIndexPath *indexPath, UITableViewCell *cell, id 
     }
 };
 ```
-* 手动设置cell高度
+* 手动设置cell高度（一般用不到）
 ```
 tableView.cellHAtIndexPath = ^CGFloat(NSIndexPath *indexPath) {
     if(indexPath.row == 0){
@@ -148,7 +148,7 @@ tableView.editActionsForRowAtIndexPath = ^NSArray<UITableViewRowAction *> *(NSIn
 ```
 tableView.disableAutomaticDimension = YES;
 ```
-* 同时支持系统原生的代理和数据源方法 设置代理和数据源 遵循相应代理和数据源即可 若您重写了对应的方法 这对应的block方法将失效  
+* 同时支持系统原生的代理和数据源方法设置代理和数据源，遵循相应代理和数据源即可，若您重写了对应的代理方法，则对应的block方法将失效  
 
 ```
 tableView.zxDataSource = self;
