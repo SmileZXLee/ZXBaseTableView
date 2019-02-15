@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-@interface TestModel : ZXBaseModel
+@interface TestModel : NSObject
 @property(nonatomic, copy)NSString *title;
 @property(nonatomic, copy)NSString *msg;
-//@property(nonatomic, assign)CGFloat cellH;
+
 @end

@@ -22,6 +22,10 @@
     return propertyNamesArr;
 }
 -(NSMutableArray *)getAllPropertyNames{
+    NSString *className = NSStringFromClass([self class]);
+    if([[ZXBaseGlobalData shareInstance].allProNameList.allKeys containsObject:className]){
+        return [[ZXBaseGlobalData shareInstance].allProNameList valueForKey:className];
+    }
     NSMutableArray *propertyNamesArr = [NSMutableArray array];
     propertyNamesArr = [self getPropertyNames];
     if([self isSysClass])return propertyNamesArr;
@@ -39,7 +43,7 @@
         NSObject *obj = [class new];
         class = obj.superclass;
     }
-    
+    [[ZXBaseGlobalData shareInstance].allProNameList setValue:propertyNamesArr forKey:className];
     return propertyNamesArr;
 }
 -(NSMutableArray *)getAllValues{

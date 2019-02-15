@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "JPFPSStatus.h"
 @interface AppDelegate ()
 
 @end
@@ -24,6 +25,7 @@
     nav.navigationBar.translucent = NO;
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
+    [[JPFPSStatus sharedInstance]open];
     return YES;
 }
 

@@ -34,6 +34,8 @@
 		74592F87212E631600690410 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 74592F71212E631600690410 /* README.md */; };
 		74592F8A212EB25200690410 /* NSObject+ZXKVO.m in Sources */ = {isa = PBXBuildFile; fileRef = 74592F89212EB25200690410 /* NSObject+ZXKVO.m */; };
 		74592F90213001BF00690410 /* UIView+GetCurrentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 74592F8F213001BF00690410 /* UIView+GetCurrentVC.m */; };
+		748CCFCE22164FC5003418B9 /* ZXBaseGlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 748CCFCD22164FC5003418B9 /* ZXBaseGlobalData.m */; };
+		748CCFD2221652EF003418B9 /* JPFPSStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 748CCFD1221652EF003418B9 /* JPFPSStatus.m */; };
 		74C3284F213271A100580CD0 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C3284E213271A100580CD0 /* UIView+Toast.m */; };
 		74EFD227212D394B00D689B2 /* ZXBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EFD222212D394B00D689B2 /* ZXBaseModel.m */; };
 		74EFD228212D394B00D689B2 /* ZXBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EFD223212D394B00D689B2 /* ZXBaseCell.m */; };
@@ -123,6 +125,10 @@
 		74592F89212EB25200690410 /* NSObject+ZXKVO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ZXKVO.m"; sourceTree = "<group>"; };
 		74592F8E213001BF00690410 /* UIView+GetCurrentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+GetCurrentVC.h"; sourceTree = "<group>"; };
 		74592F8F213001BF00690410 /* UIView+GetCurrentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+GetCurrentVC.m"; sourceTree = "<group>"; };
+		748CCFCC22164FC5003418B9 /* ZXBaseGlobalData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXBaseGlobalData.h; sourceTree = "<group>"; };
+		748CCFCD22164FC5003418B9 /* ZXBaseGlobalData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXBaseGlobalData.m; sourceTree = "<group>"; };
+		748CCFD0221652EF003418B9 /* JPFPSStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPFPSStatus.h; sourceTree = "<group>"; };
+		748CCFD1221652EF003418B9 /* JPFPSStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPFPSStatus.m; sourceTree = "<group>"; };
 		74C3284D213271A100580CD0 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
 		74C3284E213271A100580CD0 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		74EFD222212D394B00D689B2 /* ZXBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXBaseModel.m; sourceTree = "<group>"; };
@@ -293,6 +299,15 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
+		748CCFCF221652EE003418B9 /* JPFPSStatus */ = {
+			isa = PBXGroup;
+			children = (
+				748CCFD0221652EF003418B9 /* JPFPSStatus.h */,
+				748CCFD1221652EF003418B9 /* JPFPSStatus.m */,
+			);
+			path = JPFPSStatus;
+			sourceTree = "<group>";
+		};
 		74C3284C213271A100580CD0 /* Toast */ = {
 			isa = PBXGroup;
 			children = (
@@ -329,6 +344,7 @@
 				74F9B687212BC95B007D3BBA /* Test */,
 				74C3284C213271A100580CD0 /* Toast */,
 				74592F40212E631600690410 /* MJRefresh */,
+				748CCFCF221652EE003418B9 /* JPFPSStatus */,
 				74F9B635212A77B5007D3BBA /* AppDelegate.h */,
 				74F9B636212A77B5007D3BBA /* AppDelegate.m */,
 				74F9B63B212A77B5007D3BBA /* Main.storyboard */,
@@ -369,6 +385,8 @@
 				74EFD223212D394B00D689B2 /* ZXBaseCell.m */,
 				74EFD224212D394B00D689B2 /* ZXBaseModel.h */,
 				74EFD222212D394B00D689B2 /* ZXBaseModel.m */,
+				748CCFCC22164FC5003418B9 /* ZXBaseGlobalData.h */,
+				748CCFCD22164FC5003418B9 /* ZXBaseGlobalData.m */,
 				74EFD226212D394B00D689B2 /* ZXBaseTableViewPrefixHeader.pch */,
 				74F9B686212B27B5007D3BBA /* ZXBaseTableViewConfig.h */,
 			);
@@ -572,8 +590,10 @@
 				74592F84212E631600690410 /* MJRefreshBackFooter.m in Sources */,
 				74592F7A212E631600690410 /* MJRefreshBackStateFooter.m in Sources */,
 				74592F7E212E631600690410 /* MJRefreshAutoNormalFooter.m in Sources */,
+				748CCFD2221652EF003418B9 /* JPFPSStatus.m in Sources */,
 				74592F78212E631600690410 /* UIView+MJExtension.m in Sources */,
 				74F9B678212AF4DE007D3BBA /* XibTestCell.m in Sources */,
+				748CCFCE22164FC5003418B9 /* ZXBaseGlobalData.m in Sources */,
 				74592F7C212E631600690410 /* MJRefreshAutoStateFooter.m in Sources */,
 				74F9B645212A77B5007D3BBA /* main.m in Sources */,
 				74F9B685212B1978007D3BBA /* NSObject+SafeSetValue.m in Sources */,

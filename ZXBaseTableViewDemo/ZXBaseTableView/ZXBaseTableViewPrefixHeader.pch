@@ -18,6 +18,7 @@
 #import "NSObject+ZXKVO.h"
 #import "ZXBaseCell.h"
 #import "ZXBaseModel.h"
+#import "ZXBaseGlobalData.h"
 #import "UIView+Toast.h"
 #endif
 
