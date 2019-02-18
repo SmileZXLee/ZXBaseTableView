@@ -3,19 +3,19 @@
 
 * 首先我们创建一个ZXBaseTableView  
 
-```
+```objective-c
 //调用控制器分类中的creatTableView即可创建一个ZXBaseTableView，frame内部自动计算了。
 ZXBaseTableView *tableView = [self creatTableView];
 ```
 
 * 设置tableView中显示的数据的数组，和往常的设置数据源习惯一样，无需任何额外处理，self.dataArr中存放model数组（NSString之类的系统对象也可以），多级数组嵌套即为多section的情况。
 
-```
+```objective-c
 tableView.zxDatas = self.dataArr;
 ```
 
 * 告诉ZXBaseTableView需要显示的cell的类
-```
+```objective-c
 tableView.cellClassAtIndexPath = ^Class(NSIndexPath *indexPath) {
     //如果是第0行，则显示XibTestCell，否则显示CustomTestCell，如果只有一个类型cell，不用判断indexPath
     if(indexPath.row == 0){
@@ -27,14 +27,14 @@ tableView.cellClassAtIndexPath = ^Class(NSIndexPath *indexPath) {
 ```
 * 告诉ZXBaseTableView需要显示的HeaderView的类（FooterView亦然）
 
-```
+```objective-c
 tableView.headerClassInSection = ^Class(NSInteger section) {
      return [TestHeaderView class];
 };
 ```
 * 获取ZXBaseTableView的headerView，可以做一些赋值操作
 
-```
+```objective-c
 tableView.headerViewInSection = ^(NSUInteger section, UIView *headerView,  NSMutableArray *secArr) {
     if(section == 1){
         headerView.backgroundColor = [UIColor redColor];
@@ -44,14 +44,14 @@ tableView.headerViewInSection = ^(NSUInteger section, UIView *headerView,  NSMut
 
 * 在XibTestCell与CustomTestCell中，设置cell中显示的数据，同样您无需更改习惯的设计模式，也无需继承任何自定义cell  
 以XibTestCell为例，您只需在.h或.m中声明： 
-```
+```objective-c
 @property (strong, nonatomic) XibTestModel *testModel;   
 ```
 (model的类名可以随便取，但是需要包含字符串“model”(大小写不影响)，您也可以在配置文件ZXBaseTableViewConfig.h中更改这个设置)  
 
 然后重写model的set方法即可：  
 
-```
+```objective-c
 -(void)setXibTestModel:(XibTestModel *)testModel{
     _testModel = testModel;
     //在这里做数据赋值操作
@@ -60,7 +60,7 @@ tableView.headerViewInSection = ^(NSUInteger section, UIView *headerView,  NSMut
 ```
 
 * 之后，我们可能需要获取tableView中对应cell的点击事件，并进行相应处理  
-```
+```objective-c
 //选中某一indexPath
 tableView.didSelectedAtIndexPath = ^(NSIndexPath *indexPath,id model,UITableViewCell *cell) {
     NSLog(@"选中了%lu-%lu,选中model-%@,选中cell-%@",indexPath.section,indexPath.row,model,cell);
@@ -73,7 +73,7 @@ _至此，一个普通的tableView已创建完毕，运行程序即可正常显�
 我们有些时候可能需要额外的处理，以下是较常见的其他关于tableView的处理：  
 * 获取tableView中的cell，并进行额外处理
 
-```
+```objective-c
 //获取对应indexPath的cell 可以在这里对cell赋值或者修改cell的一些属性或者绑定cell中button的点击事件
 tableView.cellAtIndexPath = ^(NSIndexPath *indexPath, UITableViewCell *cell, id model) {
     if([cell isKindOfClass:[CustomTestCell class]]){
@@ -82,7 +82,7 @@ tableView.cellAtIndexPath = ^(NSIndexPath *indexPath, UITableViewCell *cell, id 
 };
 ```
 * 手动设置cell高度（一般用不到）
-```
+```objective-c
 tableView.cellHAtIndexPath = ^CGFloat(NSIndexPath *indexPath) {
     if(indexPath.row == 0){
         return 100;
@@ -92,7 +92,7 @@ tableView.cellHAtIndexPath = ^CGFloat(NSIndexPath *indexPath) {
 };
 ```
 * 根据文字内容自动设置cell高度
-```
+```objective-c
 //通常做法是在cell对应的model中定义一个用于存储cell高度的属性，重写cell中变化的文字内容的set方法，并且在set方法中将计算的高度结果赋值给cell高度的属性，ZXBaseTableView会为每个cell的对应model中动态添加一个名为cellH的属性，若用户手动创建了这个同名属性，则使用用户创建的cellH的值作为cell的高度，以下举例说明：
 //假设cell对应的model中有一个comment属性，用于存储用户评论cell的评论内容，需要根据评论内容长度自动调整cell高度，则您只需要在model的.m文件中，写下如下代码即可，getRectHeightWithLimitH为自定义的计算文字高度的函数，需替换为自己的高度计算函数：
 -(void)setComment:(NSString *)comment{
@@ -104,7 +104,7 @@ tableView.cellHAtIndexPath = ^CGFloat(NSIndexPath *indexPath) {
 //大功告成！！
 ```
 * 创建headerView或footerView对象并设置为对应的headerView或footerView（不常用，一般直接返回对应对象名即可，ZXBaseTableView会自动创建并设置高度）
-```
+```objective-c
 //声明tableView的footerView
 tableView.viewForFooterInSection = ^UIView *(NSInteger section) {
     UILabel *footerLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, KSCREENWIDTH, 40)];
@@ -115,7 +115,7 @@ tableView.viewForFooterInSection = ^UIView *(NSInteger section) {
     return footerLabel;
 };
 ```
-```
+```objective-c
 //声明footerView高度
 tableView.heightForFooterInSection = ^CGFloat(NSInteger section) {
     if(section == 3){
@@ -127,7 +127,7 @@ tableView.heightForFooterInSection = ^CGFloat(NSInteger section) {
 ```
 
 * tableView滑动删除
-```
+```objective-c
 tableView.editActionsForRowAtIndexPath = ^NSArray<UITableViewRowAction *> *(NSIndexPath *indexPath) {
     if(indexPath.row == self.dataSource.count)return nil;
     __weak typeof(self) weakSelf = self;
@@ -140,22 +140,22 @@ tableView.editActionsForRowAtIndexPath = ^NSArray<UITableViewRowAction *> *(NSIn
 ```
 * 有时候我们界面可能需要展示一些假数据，下面这个方法可以无需设置数据源数组即生成指定数量的cell
 
-```
+```objective-c
 [tableView initDatasWithRowCount:20];
 ```
 * 禁止系统Cell自动高度 可以有效解决tableView跳动问题
 
-```
+```objective-c
 tableView.disableAutomaticDimension = YES;
 ```
 * 同时支持系统原生的代理和数据源方法设置代理和数据源，遵循相应代理和数据源即可，若您重写了对应的代理方法，则对应的block方法将失效  
 
-```
+```objective-c
 tableView.zxDataSource = self;
 tableView.zxDelegate = self;
 ```
 * 支持scrollView滚动事件，缩放事件，滚动到顶部事件，开始拖拽事件，正在拖拽事件等  
-```
+```objective-c
 tableView.scrollViewDidScroll = ^(UIScrollView *scrollView) {
     //NSLog(@"滚动到--%lf",scrollView.contentOffset.y);
 };
@@ -169,13 +169,13 @@ tableView.scrollViewDidScroll = ^(UIScrollView *scrollView) {
 
 * 告知ZXBaseTableView控制器中获取分页数据请求的方法即可
 
-```
+```objective-c
 [self.tableView addPagingWithReqSel:@selector(reqDataList)];
 [self.tableView.mj_header beginRefreshing];
 ```
 * 请求分页数据（网络请求相关）
 
-```
+```objective-c
 -(void)reqDataList{
     @ZXWeakSelf(self);
     [self reqLocalDtatWithParam:@{@"pageNo" : [NSNumber numberWithInteger:self.tableView.pageNo],@"pageCount" : [NSNumber numberWithInteger:self.tableView.pageCount]} resultBlock:^(BOOL result,id backData) {
@@ -197,7 +197,7 @@ _至此，一个分页已经写完了，暂无数据占位图，网络错误占�
 
 ## ZXBaseTableView一些属性偏好设置
 _若您需要修改ZXBaseTableView的默认配置或默认状态，在方法-initialize中设置即可
-```
+```objective-c
 //无数据是否显示header 默认为NO
 @property(nonatomic, assign)BOOL showHeaderWhenNoMsg;
 
@@ -214,7 +214,7 @@ _若您需要修改ZXBaseTableView的默认配置或默认状态，在方法-ini
 _其他详见ZXBaseTableView.h_
 
 ## ZXBaseTableView默认配置文件
-```
+```objective-c
 ///model默认去匹配的cell高度属性名 若不存在则动态生成cellHRunTime的属性名
 static NSString *const CELLH = @"cellH";
 ///cell会自动赋值包含“model”的属性
