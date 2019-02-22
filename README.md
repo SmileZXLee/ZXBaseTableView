@@ -103,6 +103,16 @@ tableView.cellHAtIndexPath = ^CGFloat(NSIndexPath *indexPath) {
 @property (nonatomic,assign) CGFloat cellH;
 //大功告成！！
 ```
+* 在cell高度原本基础上修改cell高度，例如设置cell高度比例等
+```objective-c
+//您需要model的在.h或.m中声明一下以下属性：
+@property (nonatomic,assign) CGFloat cellH;
+//重写set方法即可，cellH即为原先计算好的cell高度，您可以在这个基础上进行计算，赋值给_cellH即可
+-(void)setCellH:(CGFloat)cellH{
+    _cellH = cellH - 100;
+    //_cellH = cellH * 0.8;
+}
+```
 * 创建headerView或footerView对象并设置为对应的headerView或footerView（不常用，一般直接返回对应对象名即可，ZXBaseTableView会自动创建并设置高度）
 ```objective-c
 //声明tableView的footerView
