@@ -7,13 +7,6 @@
 //调用控制器分类中的creatTableView即可创建一个ZXBaseTableView，frame内部自动计算了。
 ZXBaseTableView *tableView = [self creatTableView];
 ```
-
-* 设置tableView中显示的数据的数组，和往常的设置数据源习惯一样，无需任何额外处理，self.dataArr中存放model数组（NSString之类的系统对象也可以），多级数组嵌套即为多section的情况。
-
-```objective-c
-tableView.zxDatas = self.dataArr;
-```
-
 * 告诉ZXBaseTableView需要显示的cell的类
 ```objective-c
 tableView.cellClassAtIndexPath = ^Class(NSIndexPath *indexPath) {
@@ -41,7 +34,11 @@ tableView.headerViewInSection = ^(NSUInteger section, UIView *headerView,  NSMut
     }
 };
 ```
+* 设置tableView中显示的数据的数组，和往常的设置数据源习惯一样，无需任何额外处理，self.dataArr中存放model数组（NSString之类的系统对象也可以），多级数组嵌套即为多section的情况。
 
+```objective-c
+tableView.zxDatas = self.dataArr;
+```
 * 在XibTestCell与CustomTestCell中，设置cell中显示的数据，同样您无需更改习惯的设计模式，也无需继承任何自定义cell  
 以XibTestCell为例，您只需在.h或.m中声明： 
 ```objective-c
