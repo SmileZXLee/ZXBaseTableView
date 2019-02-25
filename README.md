@@ -100,11 +100,11 @@ tableView.cellHAtIndexPath = ^CGFloat(NSIndexPath *indexPath) {
 @property (nonatomic,assign) CGFloat cellH;
 //大功告成！！
 ```
-* 在cell高度原本基础上修改cell高度，例如设置cell高度比例等，当然您也可以自定义model来处理这些，无需每个model都写一遍。
+* 在cell高度原本基础上修改cell高度，例如统一修改cell高度比例等，当然您也可以自定义model来处理这些，无需每个model都写一遍。
 ```objective-c
 //您需要model的在.h或.m中声明一下以下属性：
 @property (nonatomic,assign) CGFloat cellH;
-//重写set方法即可，cellH即为原先计算好的cell高度，您可以在这个基础上进行计算，赋值给_cellH即可
+//重写set方法即可，cellH即为原先计算好的cell高度或cell本身真实高度，您可以在这个基础上进行计算，赋值给_cellH即可
 -(void)setCellH:(CGFloat)cellH{
     _cellH = cellH - 100;
     //_cellH = cellH * 0.8;
