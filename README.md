@@ -110,6 +110,12 @@ tableView.cellHAtIndexPath = ^CGFloat(NSIndexPath *indexPath) {
     //_cellH = cellH * 0.8;
 }
 ```
+* 在cell中获取当前indexPath
+```objective-c
+//您需要model的在.h或.m中声明一下以下属性：
+@property (nonatomic,strong) NSIndexPath *index;
+//则ZXBaseTableView会自动将当前模型的indexPath赋值给它，您可以在cell中通过对应模型获取对应的indexPath。
+```
 * 创建headerView或footerView对象并设置为对应的headerView或footerView（不常用，一般直接返回对应对象名即可，ZXBaseTableView会自动创建并设置高度）
 ```objective-c
 //声明tableView的footerView
