@@ -25,15 +25,6 @@ tableView.headerClassInSection = ^Class(NSInteger section) {
      return [TestHeaderView class];
 };
 ```
-* 获取ZXBaseTableView的headerView，可以做一些赋值操作
-
-```objective-c
-tableView.headerViewInSection = ^(NSUInteger section, UIView *headerView,  NSMutableArray *secArr) {
-    if(section == 1){
-        headerView.backgroundColor = [UIColor redColor];
-    }
-};
-```
 * 设置tableView中显示的数据的数组，和往常的设置数据源习惯一样，无需任何额外处理，self.dataArr中存放model数组（NSString之类的系统对象也可以），多级数组嵌套即为多section的情况。
 
 ```objective-c
@@ -75,6 +66,15 @@ _至此，一个普通的tableView已创建完毕，运行程序即可正常显�
 tableView.cellAtIndexPath = ^(NSIndexPath *indexPath, UITableViewCell *cell, id model) {
     if([cell isKindOfClass:[CustomTestCell class]]){
         ((CustomTestCell *)cell).backgroundColor = [UIcolor redColor];
+    }
+};
+```
+* 获取ZXBaseTableView的headerView，可以做一些赋值操作
+
+```objective-c
+tableView.headerViewInSection = ^(NSUInteger section, UIView *headerView,  NSMutableArray *secArr) {
+    if(section == 1){
+        headerView.backgroundColor = [UIColor redColor];
     }
 };
 ```
