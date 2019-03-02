@@ -20,7 +20,7 @@
 
 @property(nonatomic, assign)MJFooterStyle footerStyle;
 @property(nonatomic, assign)BOOL isMJHeaderRef;
-
+@property(nonatomic, strong)id target;
 @end
 @implementation ZXBaseTableView
 #pragma mark 初始化(在这边做一些tableView的初始化工作)
@@ -62,19 +62,19 @@
     _zxDatas = zxDatas;
     [self reloadData];
     /*
-    @ZXWeakSelf(self);
-    [self.zxDatas obsKey:@"count" handler:^(id newData, id oldData, id owner) {
-        @ZXStrongSelf(self);
-        if(![newData integerValue]){
-            //没有数据
-            [self showNoMoreData];
-            [self reloadData];
-        }else{
-            [self removeNoMoreData];
-        }
-    }];
+     @ZXWeakSelf(self);
+     [self.zxDatas obsKey:@"count" handler:^(id newData, id oldData, id owner) {
+     @ZXStrongSelf(self);
+     if(![newData integerValue]){
+     //没有数据
+     [self showNoMoreData];
+     [self reloadData];
+     }else{
+     [self removeNoMoreData];
+     }
+     }];
      */
-     
+    
 }
 -(void)initDatasWithSectionCount:(NSUInteger)secCount rowCount:(NSUInteger)rowCount{
     NSMutableArray *datasArr = [NSMutableArray array];
@@ -154,14 +154,14 @@
             }
         }
         /*
-        if(!cellContainsModel || ![[model safeValueForKey:CELLH] doubleValue]){
-            if(![[cell getAllPropertyNames]containsObject:CELLH]){
-                [cell safeSetValue:[NSNumber numberWithFloat:cellH] forKey:CELLH];
-            }else{
-              [cell setValue:[NSNumber numberWithFloat:cellH] forUndefinedKey:CELLH];
-            }
-            
-        }
+         if(!cellContainsModel || ![[model safeValueForKey:CELLH] doubleValue]){
+         if(![[cell getAllPropertyNames]containsObject:CELLH]){
+         [cell safeSetValue:[NSNumber numberWithFloat:cellH] forKey:CELLH];
+         }else{
+         [cell setValue:[NSNumber numberWithFloat:cellH] forUndefinedKey:CELLH];
+         }
+         
+         }
          */
         !self.cellAtIndexPath ? : self.cellAtIndexPath(indexPath,cell,model);
         //可以在这里设置整个项目cell的属性，也可以在cellAtIndexPath的block中设置当前控制器tableview的cell属性
@@ -244,17 +244,17 @@
             return self.cellHAtIndexPath(indexPath);
         }else{
             id model = [self getModelAtIndexPath:indexPath];
-                if(model){
-                    CGFloat cellH = [[model safeValueForKeyPath:CELLH] floatValue];
-                    if(cellH){
-                       return cellH;
-                    }else{
-                        return [[model cellHRunTime] floatValue];
-                    }
+            if(model){
+                CGFloat cellH = [[model safeValueForKeyPath:CELLH] floatValue];
+                if(cellH){
+                    return cellH;
+                }else{
+                    return [[model cellHRunTime] floatValue];
                 }
-                else{
-                    return CELLDEFAULTH;
-                }
+            }
+            else{
+                return CELLDEFAULTH;
+            }
         }
         
     }
@@ -497,7 +497,7 @@
         reloadBtn.layer.borderWidth = 1;
         reloadBtn.layer.borderColor = UIColorFromRGB(RELOADBTNMAINCOLOR).CGColor;
         reloadBtn.layer.cornerRadius = 2;
-        [reloadBtn addTarget:[self getCurrentVC] action:backSel forControlEvents:UIControlEventTouchUpInside];
+        [reloadBtn addTarget:self.target action:backSel forControlEvents:UIControlEventTouchUpInside];
         //分开写 比较清晰
         switch (errorCode)
         {   //无网络连接
@@ -511,7 +511,7 @@
                 break;
             }
             case -1000:
-            {   
+            {
                 //请求失败
                 subImgV.image = [UIImage imageNamed:NETERRIMGNAME_REQ_ERROR];
                 if(!self.hideMsgToast){
@@ -627,18 +627,14 @@
         }
     }
 }
--(void)addPagingWithReqSel:(SEL _Nullable )sel{
-    @ZXWeakSelf(self);
+-(void)addPagingWithReqSel:(SEL _Nullable )sel target:(id)target{
+    self.target = target;
     [self addMJHeader:^{
-        @ZXStrongSelf(self);
-        id target = [self getCurrentVC];
         if([target respondsToSelector:sel]){
             ((void (*)(id, SEL))[target methodForSelector:sel])(target, sel);
         }
     }];
     [self addMJFooter:^{
-        @ZXStrongSelf(self);
-        id target = [self getCurrentVC];
         if([target respondsToSelector:sel]){
             ((void (*)(id, SEL))[target methodForSelector:sel])(target, sel);
         }

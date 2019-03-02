@@ -54,7 +54,7 @@ typedef void(^reqResultBlock) (BOOL result,id backData);
         //[self.tableView setMJFooterStyle:MJFooterStyleGroup noMoreStr:@"啦啦啦没有更多了"];
         
         //等同于上方写法
-        [self.tableView addPagingWithReqSel:@selector(reqDataList)];
+        [self.tableView addPagingWithReqSel:@selector(reqDataList) target:self];
         [self.tableView.mj_header beginRefreshing];
 //        self.tableView.hideReloadBtn = YES;
 //        self.tableView.hideMsgToast = YES;

@@ -113,7 +113,7 @@ typedef void(^footerBlock) (void);
 ///添加MJFooter 同时设置样式
 -(void)addMJFooterStyle:(MJFooterStyle)style noMoreStr:(NSString *_Nullable)noMoreStr block:(footerBlock _Nullable )block;
 ///添加分页操作 传入请求分页数据的方法和方法所属的控制器
--(void)addPagingWithReqSel:(SEL _Nullable )sel;
+-(void)addPagingWithReqSel:(SEL _Nullable )sel target:(id)target;
 ///停止MJHeader和MJFooter刷新状态
 -(void)endMjRef;
 ///分页接口调取完毕更新tableView状态，status为分页接口调取结果，YES为请求成功，NO为失败
