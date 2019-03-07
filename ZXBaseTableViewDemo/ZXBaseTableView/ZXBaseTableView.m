@@ -311,7 +311,7 @@
             if(self.heightForHeaderInSection){
                 return self.heightForHeaderInSection(section);
             }else{
-                if(section < self.zxDatas.count){
+                if(section < self.zxDatas.count || (self.showHeaderWhenNoMsg &&  section == 0)){
                     UIView *headerView = [self getHeaderViewInSection:section];
                     return headerView.frame.size.height;
                 }else{
@@ -336,7 +336,7 @@
             if(self.heightForFooterInSection){
                 return self.heightForFooterInSection(section);
             }else{
-                if(section < self.zxDatas.count){
+                if(section < self.zxDatas.count || (self.showFooterWhenNoMsg &&  section == 0)){
                     UIView *footerView = [self getFooterViewInSection:section];
                     return footerView.frame.size.height;
                 }else{

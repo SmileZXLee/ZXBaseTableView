@@ -58,6 +58,8 @@ typedef void(^footerBlock) (void);
 @property(nonatomic, assign)BOOL disableAutomaticDimension;
 ///无数据是否显示header，默认为NO
 @property(nonatomic, assign)BOOL showHeaderWhenNoMsg;
+///无数据是否显示footer，默认为NO
+@property(nonatomic, assign)BOOL showFooterWhenNoMsg;
 #pragma mark - 数据获取
 ///获取选中某一行
 @property (nonatomic, copy) void (^didSelectedAtIndexPath)(NSIndexPath *indexPath,id model,UITableViewCell *cell);

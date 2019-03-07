@@ -183,7 +183,7 @@ tableView.scrollViewDidScroll = ^(UIScrollView *scrollView) {
 * 告知ZXBaseTableView控制器中获取分页数据请求的方法即可
 
 ```objective-c
-[self.tableView addPagingWithReqSel:@selector(reqDataList)];
+[self.tableView addPagingWithReqSel:@selector(reqDataList) target:self];
 [self.tableView.mj_header beginRefreshing];
 ```
 * 请求分页数据（网络请求相关）
