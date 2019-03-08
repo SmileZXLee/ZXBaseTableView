@@ -70,9 +70,9 @@ typedef void(^footerBlock) (void);
 ///获取对应行的cell和model
 @property (nonatomic, copy) void (^cellAtIndexPath)(NSIndexPath *indexPath,UITableViewCell *cell,id model);
 ///获取对应section的headerView secArr为对应section的model数组
-@property (nonatomic, copy) void (^headerViewInSection)(NSUInteger section,UIView *headerView,NSMutableArray *secArr);
+@property (nonatomic, copy) void (^headerViewInSection)(NSUInteger section,id headerView,NSMutableArray *secArr);
 ///获取对应section的footerView secArr为对应section的model数组
-@property (nonatomic, copy) void (^footerViewInSection)(NSUInteger section,UIView *footerView,NSMutableArray *secArr);
+@property (nonatomic, copy) void (^footerViewInSection)(NSUInteger section,id footerView,NSMutableArray *secArr);
 ///cell将要展示
 @property (nonatomic, copy) void (^willDisplayCell)(NSIndexPath *indexPath,UITableViewCell *cell);
 
