@@ -1,4 +1,5 @@
 # ZXBaseTableView
+## 停止维护，推荐使用精简版的[ZXTableView](https://github.com/SmileZxLee/ZXTableView)
 ## 创建一个常见的tableView示例
 
 * 首先我们创建一个ZXBaseTableView  
